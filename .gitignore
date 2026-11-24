@@ -1,0 +1,26 @@
+
+# Dependencies
+**/node_modules/
+
+# Build files
+**/dist/
+**/build/
+
+# Environment secrets
+**/.env
+**/.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Cache
+**/.vite/
+coverage/
+.DS_Store
+
+# TypeScript
+**/*.tsbuildinfo
+
+.neon
+node_modules/

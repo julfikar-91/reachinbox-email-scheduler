@@ -1,0 +1,1120 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');@tailwind base;@tailwind components;@tailwind utilities;
+:root{font-family:'DM Sans',sans-serif;color:#202331;background:#f8f9fb;font-synthesis:none;text-rendering:optimizeLegibility;font-smooth:always;font-size:14px}*{box-sizing:border-box}body{margin:0;min-width:360px}.shell{min-height:100vh}.sidebar{position:fixed;inset:0 auto 0 0;width:248px;background:white;border-right:1px solid #eceef2;padding:22px 14px 16px;display:flex;flex-direction:column;z-index:5}.brand{height:38px;display:flex;align-items:center;gap:9px;padding:0 10px;font-family:Manrope,sans-serif;font-size:19px;font-weight:800;letter-spacing:-.8px;color:#222431}.brand-icon{background:#6947ed;color:#fff;width:27px;height:27px;border-radius:8px;display:grid;place-items:center}.brand-accent{color:#7050ef}.workspace{margin:29px 3px 29px;padding:11px 10px;border:1px solid #eceef2;border-radius:10px;display:flex;align-items:center;gap:10px}.workspace-mark{width:31px;height:31px;border-radius:8px;background:#f1eaff;color:#754ee8;font-weight:700;display:grid;place-items:center}.workspace b,.workspace small{display:block}.workspace b{font-size:12px;font-weight:600}.workspace small{font-size:11px;color:#9498a6;margin-top:3px}.workspace .muted{margin-left:auto}.nav-label,.eyebrow{font-size:10px;font-weight:700;letter-spacing:1px;color:#a0a3af}.nav-label{padding:0 11px;margin-bottom:10px}.sidebar nav{display:grid;gap:4px}.nav-link{height:40px;padding:0 11px;color:#777b8b;text-decoration:none;display:flex;align-items:center;gap:11px;border-radius:7px;font-weight:500;transition:.18s}.nav-link:hover{background:#f7f5ff;color:#6847e8}.nav-link.active{background:#f2efff;color:#6542e8;font-weight:600}.nav-link span{flex:1}.nav-count{font-style:normal;font-size:10px;background:#e6dfff;color:#6542e8;border-radius:10px;padding:2px 6px}.sidebar-bottom{margin-top:auto}.usage-card{background:#faf9fe;border:1px solid #efedf7;border-radius:9px;padding:13px;margin-bottom:17px}.usage-head{color:#777b8b;font-size:11px;display:flex;justify-content:space-between}.usage-card>strong{display:block;font-family:Manrope,sans-serif;font-size:17px;margin:12px 0 9px}.usage-card>strong small{font:11px 'DM Sans';color:#989baa}.progress{height:5px;border-radius:6px;background:#e9e6f2;overflow:hidden}.progress i{display:block;background:#7957ec;height:100%;border-radius:6px}.usage-caption{font-size:10px;color:#999cab;display:block;margin-top:8px}.profile{padding:12px 7px 0;border-top:1px solid #f0f1f4;display:flex;align-items:center;gap:9px;cursor:pointer}.avatar,.top-avatar{width:33px;height:33px;border-radius:50%;background:#fce2d4;color:#bd694b;display:grid;place-items:center;font-weight:700;overflow:hidden}.avatar img,.top-avatar img{width:100%;height:100%;object-fit:cover}.profile-copy{flex:1}.profile-copy b,.profile-copy small{display:block}.profile-copy b{font-size:11px}.profile-copy small{font-size:10px;color:#9a9ca8;margin-top:3px}.muted{color:#a0a2ae}.main{margin-left:248px;min-height:100vh}.topbar{height:62px;background:#fff;border-bottom:1px solid #eceef2;display:flex;align-items:center;justify-content:space-between;padding:0 39px}.crumb{font-size:12px;color:#9a9daa}.crumb span{margin:0 9px;color:#c6c8d0}.crumb b{font-weight:600;color:#4d5060}.top-actions{display:flex;align-items:center;gap:18px}.help-btn{border:0;background:none;display:flex;gap:5px;align-items:center;color:#797d8d;font-size:11px;cursor:pointer}.icon{border:0;background:transparent;color:#8f92a0;display:inline-grid;place-items:center;padding:5px;cursor:pointer;border-radius:6px}.icon:hover{background:#f4f3f8;color:#6250bb}.bell{position:relative}.bell i{position:absolute;width:5px;height:5px;background:#ef6e69;border:1px solid white;border-radius:50%;right:5px;top:4px}.top-divider{width:1px;height:22px;background:#eceef2}.top-avatar{border:0;cursor:pointer;font-size:12px}.content{max-width:1240px;padding:31px 39px 20px;margin:0 auto}.page-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}.page-head h1{font:700 25px Manrope,sans-serif;letter-spacing:-.8px;margin:7px 0 5px;color:#222431}.page-head p,.panel-head p{color:#999cab;font-size:12px;margin:0}.primary,.outline{height:36px;border-radius:7px;padding:0 13px;display:inline-flex;align-items:center;justify-content:center;gap:7px;font:600 11px 'DM Sans';cursor:pointer;text-decoration:none;transition:.18s}.primary{background:#6e4be9;color:white;border:1px solid #6e4be9;box-shadow:0 2px 5px #6542e826}.primary:hover{background:#5d3bd5;transform:translateY(-1px)}.primary:disabled{opacity:.6;cursor:wait}.outline{background:white;color:#666a79;border:1px solid #e7e8ed}.outline:hover{border-color:#c9bdf5;background:#faf9ff}.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.stat-card{background:white;border:1px solid #eceef2;border-radius:9px;padding:16px 17px 14px;min-height:142px;box-shadow:0 1px 2px #18203a04}.stat-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.stat-icon{width:32px;height:32px;border-radius:8px;display:grid;place-items:center}.stat-icon.blue{background:#eef4ff;color:#4e7ce7}.stat-icon.purple{background:#f2efff;color:#7955e9}.stat-icon.green{background:#e9f8f1;color:#35a77a}.stat-icon.orange{background:#fff3e9;color:#e59a42}.stat-title{display:block;font-size:11px;color:#858998}.stat-value{display:block;font:700 25px Manrope,sans-serif;letter-spacing:-.7px;margin-top:4px}.stat-delta{font-size:10px;color:#9b9eaa;display:flex;align-items:center;gap:5px;margin-top:5px}.delta-dot{height:5px;width:5px;border-radius:50%;background:#65bd8a}.activity-panel,.panel{background:white;border:1px solid #eceef2;border-radius:9px;box-shadow:0 1px 2px #18203a04}.panel-head{padding:18px 19px 15px;display:flex;align-items:center;justify-content:space-between}.panel-head h2,.settings h2{font:700 14px Manrope,sans-serif;margin:0 0 5px;letter-spacing:-.2px}.panel-head p{font-size:11px}.panel-tools{display:flex;align-items:center;gap:8px}.searchbox{height:32px;border:1px solid #e9eaf0;border-radius:6px;padding:0 9px;display:flex;align-items:center;gap:7px;color:#a0a3af}.searchbox input{border:0;outline:0;width:135px;font:11px 'DM Sans';color:#444}.searchbox input::placeholder{color:#a6a8b2}.filter{height:32px;padding:0 10px}.table-wrap{overflow:auto}table{width:100%;border-collapse:collapse;text-align:left;white-space:nowrap}thead{background:#fbfbfc;border-top:1px solid #f0f1f4;border-bottom:1px solid #f0f1f4}th{height:37px;padding:0 19px;font-size:9px;letter-spacing:.6px;color:#a2a4b0;font-weight:700}td{height:54px;border-bottom:1px solid #f2f2f5;padding:0 19px;font-size:11px;color:#626575}tbody tr:last-child td{border-bottom:0}.recipient{display:flex;align-items:center;gap:9px;color:#4a4d5b;font-weight:500}.recipient-avatar{width:27px;height:27px;border-radius:7px;background:#f2f0ff;color:#7355dc;display:grid;place-items:center;font-weight:700;font-size:10px}.subject{font-weight:500;color:#4d5060}.date{color:#868997}.badge{display:inline-flex;padding:4px 8px;border-radius:20px;font-size:9px;font-weight:600;text-transform:capitalize}.badge.scheduled,.badge.queued{background:#f2efff;color:#7654dc}.badge.sent,.badge.delivered{background:#eaf8f1;color:#3d9b72}.badge.failed{background:#fff0ee;color:#d76759}.badge.pending{background:#fff6e9;color:#c58a32}.table-footer{height:49px;border-top:1px solid #f0f1f4;display:flex;justify-content:space-between;align-items:center;padding:0 18px;color:#9b9eaa;font-size:10px}.table-footer b{color:#686b7a;font-weight:600}.table-footer button{background:white;border:1px solid #e9eaf0;border-radius:5px;color:#8c8f9c;padding:6px 9px;margin-left:6px;font:10px 'DM Sans'}.table-footer button:disabled{opacity:.55}.empty-state{display:flex;flex-direction:column;align-items:center;padding:41px 12px 44px;color:#777b8b}.empty-icon{width:42px;height:42px;border-radius:12px;background:#f4f1ff;color:#7655e7;display:grid;place-items:center;margin-bottom:12px}.empty-state b{font-size:12px;color:#424554}.empty-state span{font-size:11px;margin:5px 0 14px;color:#999cab}.empty{height:100px;text-align:center;color:#999}.content footer{font-size:10px;color:#b0b2bc;padding:18px 0}.content footer span{padding:0 5px}.modal-scrim{position:fixed;inset:0;background:#17182770;z-index:20;display:grid;place-items:center;padding:18px;backdrop-filter:blur(2px)}.compose-modal{background:white;border-radius:12px;width:min(570px,100%);max-height:94vh;overflow:auto;padding:23px 25px;box-shadow:0 20px 60px #15152333;animation:pop .18s ease-out}@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}.modal-head{display:flex;justify-content:space-between;margin-bottom:17px}.modal-head h2{font:700 20px Manrope;margin:5px 0 0}.compose-modal label{font-size:11px;color:#595c6b;font-weight:600;display:block;margin:12px 0}.compose-modal label>input:not([type=file]),.compose-modal textarea{display:block;margin-top:6px;border:1px solid #e7e8ed;border-radius:6px;width:100%;padding:10px;font:12px 'DM Sans';outline:0;color:#404352;resize:vertical}.compose-modal input:focus,.compose-modal textarea:focus{border-color:#a995f3;box-shadow:0 0 0 3px #7755e817}.upload-zone{height:100px;border:1px dashed #d9d5e8;border-radius:8px;display:flex!important;align-items:center;justify-content:center;flex-direction:column;position:relative;background:#fcfbff}.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer}.upload-icon{color:#7654e9;margin-bottom:4px}.upload-zone b{font-size:11px;color:#595c6b}.upload-zone span{font-size:10px;color:#a1a3af;margin-top:4px;font-weight:400}.recipient-preview{border:1px solid #e3f2e9;background:#f7fcf8;border-radius:7px;padding:9px 10px;color:#4a9c6e}.recipient-preview b{display:flex;align-items:center;gap:4px;font-size:10px}.recipient-preview span{display:block;color:#8a9b8f;font-size:10px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-error{font-size:11px;background:#fff2f0;color:#be574b;padding:9px;border-radius:6px}.modal-foot{display:flex;justify-content:flex-end;gap:8px;padding-top:12px;border-top:1px solid #f0f1f4;margin-top:14px}.toast{position:fixed;z-index:30;bottom:23px;right:24px;background:#272a38;color:white;border-radius:8px;padding:12px 16px;display:flex;align-items:center;gap:9px;box-shadow:0 8px 25px #1112;font-size:12px;animation:pop .2s}.toast svg{color:#70d29a}.integration-card{max-width:500px;margin:42px auto;background:white;border:1px solid #eceef2;border-radius:12px;padding:30px;text-align:center;box-shadow:0 2px 8px #11104}.integration-art{height:135px;border-radius:9px;background:linear-gradient(135deg,#f8f5ff,#f0effe);display:grid;place-items:center;margin-bottom:25px}.slack-logo{width:65px;height:65px;display:grid;grid-template:1fr 1fr/1fr 1fr;gap:4px;transform:rotate(-8deg)}.slack-logo span{border-radius:8px}.slack-logo span:nth-child(1){background:#36c5f0;border-radius:10px 10px 3px 10px}.slack-logo span:nth-child(2){background:#2eb67d;border-radius:10px 10px 10px 3px}.slack-logo span:nth-child(3){background:#e01e5a;border-radius:10px 3px 10px 10px}.slack-logo span:nth-child(4){background:#ecb22e;border-radius:3px 10px 10px 10px}.integration-card h2{font:700 20px Manrope;margin:8px 0}.integration-card p{font-size:12px;color:#858998;line-height:1.7;max-width:380px;margin:0 auto 20px}.integration-status{font-size:11px;color:#686b78;display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:18px}.status-dot{height:7px;width:7px;border-radius:50%;background:#c5c6ce}.status-dot.on{background:#45b982;box-shadow:0 0 0 3px #45b98220}.integration-card>small{display:block;color:#a1a3ae;font-size:10px;margin-top:15px}.queue-panel{margin-top:5px}.queue-panel .panel-head{border-bottom:1px solid #f0f1f4}.queue-note{margin:18px;padding:16px;border-radius:8px;background:#faf9fe;display:flex;align-items:center;gap:12px}.queue-pulse{width:38px;height:38px;border-radius:9px;background:#f0ebff;color:#7451e8;display:grid;place-items:center}.queue-note b,.queue-note span{display:block}.queue-note b{font-size:12px}.queue-note span{font-size:11px;color:#9295a2;margin-top:4px}.settings{padding:22px;display:grid;justify-items:start;gap:10px}.settings p{margin:0 0 8px;color:#9295a2;font-size:12px}.mobile-menu,.mobile-close{display:none}
+@media(max-width:950px){.sidebar{width:220px}.main{margin-left:220px}.content{padding:26px 24px}.topbar{padding:0 24px}.stats-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:680px){.sidebar{transform:translateX(-100%);transition:transform .2s;width:260px;box-shadow:8px 0 24px #1111}.sidebar.open{transform:translateX(0)}.main{margin-left:0}.mobile-menu{display:inline-grid;margin-right:10px}.mobile-close{display:inline-grid;margin-left:auto}.topbar{justify-content:flex-start;padding:0 15px;height:56px}.crumb{flex:1}.top-actions{gap:10px}.help-btn,.top-divider{display:none}.content{padding:24px 15px}.page-head{align-items:flex-start;gap:12px}.page-head h1{font-size:21px}.page-head p{max-width:260px;line-height:1.5}.page-head>.primary{font-size:0;width:38px;min-width:38px;padding:0}.page-head>.primary svg{flex:none}.stats-grid{gap:9px}.stat-card{padding:13px;min-height:132px}.panel-head{align-items:flex-start;gap:12px;flex-direction:column}.panel-tools{width:100%}.searchbox{flex:1}.searchbox input{width:100%}.filter{font-size:0;width:34px;padding:0}.filter svg{flex:none}.table-wrap{margin:0 -2px}th,td{padding-left:12px;padding-right:12px}.table-footer{padding:0 11px}.integration-card{margin:20px 0;padding:22px 17px}.field-row{grid-template-columns:1fr;gap:0}.compose-modal{padding:19px}.queue-note{margin:12px;align-items:flex-start}.queue-panel .panel-head>.primary{align-self:flex-start}}
+
+.sender-form{padding:16px 19px;border-top:1px solid #f0f1f4;background:#fcfbff}.sender-form label{font-size:11px;color:#595c6b;font-weight:600;display:block;margin:5px 0 12px}.sender-form input,.compose-modal select{display:block;margin-top:6px;border:1px solid #e7e8ed;border-radius:6px;width:100%;padding:9px;font:12px 'DM Sans';outline:0;color:#404352;background:white}.sender-form input:focus,.compose-modal select:focus{border-color:#a995f3;box-shadow:0 0 0 3px #7755e817}.filter-select{height:32px;padding:0 8px;font:11px 'DM Sans'}
+
+.login-screen{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(ellipse at top,#f1edff,#f8f9fb 62%)}.login-card{max-width:410px}.login-mark{margin:0 auto 14px;width:44px;height:44px;border-radius:12px}.login-card h1{font:800 25px Manrope,sans-serif;margin:0 0 8px}.login-card p{margin-bottom:20px}.login-card .primary{width:100%;height:42px}
+
+@keyframes spin{to{transform:rotate(360deg)}}.spin{animation:spin .8s linear infinite}.form-error{font-size:11px;background:#fff2f0;color:#be574b;padding:9px;border-radius:6px;display:flex;align-items:center;gap:6px}.badge.cancelled{background:#f3f4f6;color:#6b7280}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   FIGMA EXACT DESIGN MATCH (Image 1 & Image 2)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Image 1: Figma Login Screen ───────────────────────────────────────────── */
+.figma-login-viewport {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.figma-login-card {
+  width: 100%;
+  max-width: 420px;
+  background: #ffffff;
+  border: 1px solid #ECECEC;
+  border-radius: 12px;
+  padding: 44px 36px 40px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+}
+
+.figma-login-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 26px 0;
+  letter-spacing: -0.5px;
+  font-family: inherit;
+}
+
+.figma-login-error {
+  font-size: 12px;
+  background-color: #FEF2F2;
+  color: #DC2626;
+  border: 1px solid #FEE2E2;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.figma-google-btn {
+  width: 100%;
+  height: 44px;
+  background-color: #E6F4EA;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #1F2937;
+  transition: background-color 0.15s ease;
+  font-family: inherit;
+}
+
+.figma-google-btn:hover {
+  background-color: #D8EFE0;
+}
+
+.figma-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0;
+  color: #9CA3AF;
+  font-size: 12.5px;
+}
+
+.figma-divider::before,
+.figma-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.figma-divider span {
+  padding: 0 12px;
+  white-space: nowrap;
+}
+
+.figma-input {
+  width: 100%;
+  height: 44px;
+  background-color: #F4F5F7;
+  border: none;
+  border-radius: 8px;
+  padding: 0 16px;
+  font-size: 14px;
+  color: #111827;
+  margin-bottom: 14px;
+  outline: none;
+  box-sizing: border-box;
+  font-family: inherit;
+  transition: background-color 0.15s;
+}
+
+.figma-input::placeholder {
+  color: #9CA3AF;
+}
+
+.figma-input:focus {
+  background-color: #EDEFF2;
+}
+
+.figma-submit-btn {
+  width: 100%;
+  height: 44px;
+  background-color: #00A843;
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.15s ease;
+  font-family: inherit;
+}
+
+.figma-submit-btn:hover {
+  background-color: #00963C;
+}
+
+.figma-submit-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* ── Image 2: Figma Dashboard Sidebar & Layout ────────────────────────────── */
+.figma-shell {
+  display: flex;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+.figma-sidebar {
+  width: 240px;
+  min-width: 240px;
+  background-color: #ffffff;
+  border-right: 1.5px solid #F0F0F0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 10;
+}
+
+.figma-logo-wrap {
+  padding: 24px 20px 16px 20px;
+}
+
+.figma-logo-onb {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -1.2px;
+  color: #000000;
+  line-height: 1;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.figma-user-card {
+  margin: 0 16px;
+  padding: 8px 12px;
+  background-color: #F4F5F7;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.15s ease;
+}
+
+.figma-user-card:hover {
+  background-color: #EAEBED;
+}
+
+.figma-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  background-color: #E0E7FF;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 13px;
+  color: #3730A3;
+}
+
+.figma-user-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.figma-user-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.figma-user-email {
+  font-size: 11px;
+  color: #6B7280;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.figma-user-chevron {
+  color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+.figma-user-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1);
+  padding: 6px;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.figma-user-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #374151;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.figma-user-dropdown-item:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.figma-user-dropdown-item.danger {
+  color: #DC2626;
+}
+
+.figma-compose-wrap {
+  padding: 16px 16px 20px 16px;
+}
+
+.figma-sidebar-compose-btn {
+  width: 100%;
+  height: 38px;
+  background-color: #ffffff;
+  border: 1.5px solid #00A843;
+  border-radius: 9999px;
+  color: #00A843;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.figma-sidebar-compose-btn:hover {
+  background-color: #F0FDF4;
+}
+
+.figma-section-title {
+  padding: 0 20px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #9CA3AF;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.figma-nav-list {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.figma-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  border-radius: 9999px;
+  text-decoration: none;
+  color: #374151;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.figma-nav-link-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.figma-nav-link.active {
+  background-color: #E6F4EA;
+  color: #111827;
+  font-weight: 600;
+}
+
+.figma-nav-badge {
+  font-size: 13px;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+.figma-nav-link.active .figma-nav-badge {
+  color: #374151;
+  font-weight: 500;
+}
+
+.figma-nav-divider {
+  margin: 16px 16px;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+/* ── Main Area ─────────────────────────────────────────────────────────────── */
+.figma-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+}
+
+.figma-topbar {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 24px;
+  border-bottom: 1px solid #F3F4F6;
+  background-color: #ffffff;
+}
+
+.figma-search-wrap {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.figma-search-wrap .figma-search-icon {
+  position: absolute;
+  left: 14px;
+  color: #9CA3AF;
+  pointer-events: none;
+}
+
+.figma-search-input {
+  width: 100%;
+  height: 38px;
+  background-color: #F4F5F7;
+  border: none;
+  border-radius: 9999px;
+  padding: 0 16px 0 38px;
+  font-size: 14px;
+  color: #111827;
+  outline: none;
+  font-family: inherit;
+}
+
+.figma-search-input::placeholder {
+  color: #9CA3AF;
+}
+
+.figma-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.figma-topbar-btn {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  color: #9CA3AF;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.figma-topbar-btn:hover {
+  color: #374151;
+  background-color: #F3F4F6;
+}
+
+/* ── Email List Rows (Image 2) ─────────────────────────────────────────────── */
+.figma-email-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.figma-email-row {
+  display: flex;
+  align-items: center;
+  padding: 13px 24px;
+  border-bottom: 1px solid #F3F4F6;
+  background-color: #ffffff;
+  gap: 16px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.figma-email-row:hover {
+  background-color: #FAFAFA;
+}
+
+.figma-row-recipient {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  min-width: 170px;
+  max-width: 210px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+}
+
+.figma-row-time-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background-color: #FFF7ED;
+  border: 1px solid #FFEDD5;
+  color: #C2410C;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.figma-row-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.figma-row-subject {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #111827;
+  flex-shrink: 0;
+}
+
+.figma-row-dash {
+  color: #9CA3AF;
+  flex-shrink: 0;
+}
+
+.figma-row-snippet {
+  font-size: 13.5px;
+  color: #6B7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.figma-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.figma-row-star {
+  background: transparent;
+  border: none;
+  color: #D1D5DB;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s;
+}
+
+.figma-row-star:hover {
+  color: #F59E0B;
+}
+
+.figma-row-action-btn {
+  background: transparent;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.15s;
+}
+
+.figma-row-action-btn:hover {
+  background: #F3F4F6;
+  color: #111827;
+}
+
+/* ── Figma Sent Badge (Image 1) ────────────────────────────────────────────── */
+.figma-sent-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background-color: #F3F4F6;
+  color: #374151;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Figma Compose Page (Images 3 & 4) ──────────────────────────────────────── */
+.figma-compose-view {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 24px 36px 36px 36px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.figma-compose-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.figma-compose-title-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.figma-back-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111827;
+  border-radius: 6px;
+  transition: background-color 0.15s;
+}
+
+.figma-back-btn:hover {
+  background-color: #F3F4F6;
+}
+
+.figma-compose-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.figma-compose-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+}
+
+.figma-compose-icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: #9CA3AF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.figma-compose-icon-btn:hover {
+  color: #111827;
+  background-color: #F3F4F6;
+}
+
+.figma-send-later-btn {
+  height: 36px;
+  padding: 0 18px;
+  background-color: #ffffff;
+  border: 1.5px solid #00A843;
+  border-radius: 9999px;
+  color: #00A843;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.figma-send-later-btn:hover {
+  background-color: #F0FDF4;
+}
+
+.figma-form-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid #F3F4F6;
+  gap: 20px;
+}
+
+.figma-field-label {
+  font-size: 13.5px;
+  color: #4B5563;
+  width: 70px;
+  flex-shrink: 0;
+}
+
+.figma-sender-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #F4F5F7;
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 13.5px;
+  color: #111827;
+  cursor: pointer;
+  border: none;
+}
+
+.figma-recipient-input-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  flex: 1;
+}
+
+.figma-recipient-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 9999px;
+  background-color: #E6F4EA;
+  color: #137333;
+  font-size: 12.5px;
+  font-weight: 500;
+  gap: 6px;
+}
+
+.figma-recipient-pill.more {
+  background-color: #F3F4F6;
+  color: #374151;
+}
+
+.figma-text-line-input {
+  flex: 1;
+  min-width: 140px;
+  border: none;
+  outline: none;
+  font-size: 13.5px;
+  color: #111827;
+  padding: 4px 0;
+  background: transparent;
+}
+
+.figma-text-line-input::placeholder {
+  color: #9CA3AF;
+}
+
+.figma-upload-list-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #00A843;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background-color 0.15s;
+  flex-shrink: 0;
+}
+
+.figma-upload-list-btn:hover {
+  background-color: #F0FDF4;
+}
+
+.figma-settings-row {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  padding: 14px 0;
+  border-bottom: 1px solid #F3F4F6;
+}
+
+.figma-setting-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.figma-setting-label {
+  font-size: 13.5px;
+  color: #4B5563;
+}
+
+.figma-setting-box {
+  width: 58px;
+  height: 32px;
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 13.5px;
+  color: #111827;
+  outline: none;
+  padding: 0 4px;
+}
+
+.figma-setting-box:focus {
+  border-color: #00A843;
+}
+
+/* ── Rich Text Editor Container ────────────────────────────────────────────── */
+.figma-editor-wrap {
+  margin-top: 20px;
+  background-color: #F9FAFB;
+  border-radius: 16px;
+  padding: 18px 24px;
+  min-height: 360px;
+  display: flex;
+  flex-direction: column;
+}
+
+.figma-editor-toolbar {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #ffffff;
+  border: 1px solid #E5E7EB;
+  border-radius: 9999px;
+  padding: 6px 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  align-self: flex-start;
+  margin-bottom: 16px;
+}
+
+.figma-toolbar-btn {
+  background: transparent;
+  border: none;
+  color: #4B5563;
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 13px;
+  transition: all 0.15s;
+}
+
+.figma-toolbar-btn:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.figma-toolbar-sep {
+  width: 1px;
+  height: 16px;
+  background-color: #E5E7EB;
+}
+
+.figma-editor-textarea {
+  flex: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #111827;
+  font-family: inherit;
+}
+
+.figma-editor-textarea::placeholder {
+  color: #9CA3AF;
+}
+
+/* ── Send Later Popover (Image 3) ──────────────────────────────────────────── */
+.figma-send-later-popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 270px;
+  background: #ffffff;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  padding: 18px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.figma-popover-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.figma-date-picker-wrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #E5E7EB;
+  padding: 6px 0;
+}
+
+.figma-date-picker-input {
+  border: none;
+  outline: none;
+  font-size: 13px;
+  color: #111827;
+  width: 100%;
+  background: transparent;
+}
+
+.figma-preset-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+}
+
+.figma-preset-btn {
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 6px 8px;
+  font-size: 13px;
+  color: #4B5563;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.15s;
+}
+
+.figma-preset-btn:hover {
+  background-color: #F3F4F6;
+  color: #111827;
+}
+
+.figma-popover-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+  padding-top: 10px;
+  border-top: 1px solid #F3F4F6;
+}
+
+.figma-popover-cancel {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  color: #6B7280;
+  cursor: pointer;
+}
+
+.figma-popover-done {
+  height: 32px;
+  padding: 0 16px;
+  background-color: #ffffff;
+  border: 1.5px solid #00A843;
+  border-radius: 9999px;
+  color: #00A843;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.figma-popover-done:hover {
+  background-color: #F0FDF4;
+}
+
+/* ── Email Details Page (Image 2) ──────────────────────────────────────────── */
+.figma-detail-view {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+  padding: 20px 36px 36px 36px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.figma-detail-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #F3F4F6;
+  margin-bottom: 24px;
+}
+
+.figma-detail-title-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.figma-detail-subject {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.figma-detail-actions-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.figma-sender-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.figma-sender-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.figma-sender-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #00A843;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.figma-sender-names {
+  display: flex;
+  flex-direction: column;
+}
+
+.figma-sender-name-line {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.figma-sender-email-line {
+  font-size: 12px;
+  color: #6B7280;
+  font-weight: 400;
+}
+
+.figma-sender-to-me {
+  font-size: 12px;
+  color: #6B7280;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.figma-detail-timestamp {
+  font-size: 13px;
+  color: #6B7280;
+}
+
+.figma-detail-body-text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: #1F2937;
+  white-space: pre-wrap;
+  margin-bottom: 30px;
+}
+
+.figma-callout-box {
+  background-color: #FEF9C3;
+  border-left: 4px solid #EAB308;
+  padding: 14px 18px;
+  border-radius: 6px;
+  margin: 20px 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #713F12;
+}
+
+.figma-attachments-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.figma-attachment-card {
+  border: 1px solid #E5E7EB;
+  border-radius: 10px;
+  overflow: hidden;
+  width: 170px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.figma-attachment-thumb {
+  width: 100%;
+  height: 95px;
+  object-fit: cover;
+  background-color: #F3F4F6;
+}
+
+.figma-attachment-info {
+  padding: 8px 10px;
+  background-color: #ffffff;
+}
+
+.figma-attachment-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.figma-attachment-size {
+  font-size: 11px;
+  color: #9CA3AF;
+  margin-top: 2px;
+}
