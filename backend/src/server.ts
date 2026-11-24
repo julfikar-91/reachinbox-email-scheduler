@@ -185,20 +185,32 @@ if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
       async (_accessToken, _refreshToken, profile, done) => {
         try {
           const g = profile._json as any;
-          const user = await prisma.user.upsert({
-            where: { googleId: profile.id },
-            update: {
-              name: profile.displayName,
-              email: g.email,
-              avatar: profile.photos?.[0]?.value,
-            },
-            create: {
-              googleId: profile.id,
-              name: profile.displayName,
-              email: g.email,
-              avatar: profile.photos?.[0]?.value,
+          const email = g.email || `${profile.id}@gmail.com`;
+          let user = await prisma.user.findFirst({
+            where: {
+              OR: [{ googleId: profile.id }, { email }],
             },
           });
+          if (user) {
+            user = await prisma.user.update({
+              where: { id: user.id },
+              data: {
+                googleId: profile.id,
+                name: profile.displayName || user.name,
+                email,
+                avatar: profile.photos?.[0]?.value || user.avatar,
+              },
+            });
+          } else {
+            user = await prisma.user.create({
+              data: {
+                googleId: profile.id,
+                name: profile.displayName || 'Google User',
+                email,
+                avatar: profile.photos?.[0]?.value || null,
+              },
+            });
+          }
           done(null, user);
         } catch (e) {
           done(e as Error);
@@ -233,34 +245,13 @@ function formatEmail(e: any) {
 
 // ── Auth middleware ───────────────────────────────────────────────────────────
 const auth = async (req: Request, res: Response, next: NextFunction) => {
-  let userId = (req as any).session?.userId || (req.headers['x-user-id'] as string);
-
-  if (!userId) {
-    try {
-      const defaultUser = await prisma.user.upsert({
-        where: { email: 'demo@reachinbox.test' },
-        update: {},
-        create: {
-          googleId: 'demo-reachinbox-user',
-          name: 'Demo User',
-          email: 'demo@reachinbox.test',
-          avatar: null,
-        },
-      });
-      userId = defaultUser.id;
-    } catch {
-      // In case DB is not yet connected
-    }
-  }
+  const userId = (req as any).session?.userId || (req.headers['x-user-id'] as string);
 
   if (!userId) {
     return res.status(401).json({ error: 'Sign in required' });
   }
 
   (req as any).userId = userId;
-  if ((req as any).session) {
-    (req as any).session.userId = userId;
-  }
   next();
 };
 
@@ -298,51 +289,85 @@ app.get(
   },
 );
 
-app.post('/auth/logout', (req: Request, res: Response, next: NextFunction) =>
-  req.session.destroy((error: any) => {
-    res.clearCookie('reachinbox.sid', {
-      httpOnly: true,
-      sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+app.post('/auth/logout', (req: Request, res: Response, next: NextFunction) => {
+  res.clearCookie('reachinbox.sid', {
+    path: '/',
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  });
+  if (req.session) {
+    req.session.destroy((err: any) => {
+      if (err) return next(err);
+      res.json({ ok: true });
     });
-    if (error) return next(error);
+  } else {
     res.json({ ok: true });
-  }),
-);
+  }
+});
 
 app.post('/auth/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const rawEmail = String(req.body.email || 'oliver.brown@domain.io').trim().toLowerCase();
-    const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail) ? rawEmail : 'oliver.brown@domain.io';
-    const namePart = email.split('@')[0].replace(/[._]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
-    const name = namePart || 'Oliver Brown';
-    const user = await prisma.user.upsert({
-      where: { email },
-      update: {},
-      create: {
-        googleId: `local-${email}`,
-        name,
-        email,
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
-      },
-    });
+    const rawEmail = String(req.body.email || '').trim().toLowerCase();
+    const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail)
+      ? rawEmail
+      : 'oliver.brown@domain.io';
+
+    let user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      const namePart = email
+        .split('@')[0]
+        .replace(/[._]/g, ' ')
+        .replace(/\b\w/g, (c) => c.toUpperCase());
+      user = await prisma.user.create({
+        data: {
+          googleId: `local-${email}-${Date.now()}`,
+          name: namePart || 'Oliver Brown',
+          email,
+          avatar:
+            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
+        },
+      });
+    }
+
     (req as any).session.userId = user.id;
     (req as any).session.save((err: any) => {
       if (err) return next(err);
-      res.json({ ok: true, user: { id: user.id, name: user.name, email: user.email, avatar: user.avatar } });
+      res.json({
+        ok: true,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+        },
+      });
     });
   } catch (e) {
     next(e);
   }
 });
 
-app.get('/auth/me', auth, async (req: Request, res: Response) => {
-  const userId = (req as any).userId || (req as any).session?.userId;
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { id: true, name: true, email: true, avatar: true },
-  });
-  res.json({ user });
+app.get('/auth/me', async (req: Request, res: Response) => {
+  const userId = (req as any).session?.userId || (req.headers['x-user-id'] as string);
+  if (!userId) {
+    return res.status(401).json({ user: null, error: 'Not authenticated' });
+  }
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, name: true, email: true, avatar: true },
+    });
+    if (!user) {
+      if ((req as any).session) {
+        (req as any).session.destroy(() => {});
+      }
+      return res.status(401).json({ user: null, error: 'User not found' });
+    }
+    return res.json({ user });
+  } catch (error) {
+    return res.status(500).json({ error: 'Database query failed' });
+  }
 });
 
 // ── Email scheduling ──────────────────────────────────────────────────────────
@@ -370,7 +395,7 @@ app.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const v = scheduleSchema.parse(req.body);
-      const userId: string = (req as any).userId || (req as any).session.userId;
+      const userId: string = (req as any).userId || (req as any).session?.userId;
 
       // Aggregate and sanitize recipients
       const recipientList: string[] = [];
@@ -628,7 +653,7 @@ app.get(
                 },
               ],
               filter: [
-                { term: { 'userId.keyword': (req as any).session.userId } },
+                { term: { 'userId.keyword': (req as any).userId || (req as any).session?.userId } },
                 { terms: { 'status.keyword': statuses } },
               ],
             },
@@ -724,7 +749,7 @@ app.get(
   '/api/dashboard/stats',
   auth,
   async (req: Request, res: Response) => {
-    const userId: string = (req as any).session.userId;
+    const userId: string = (req as any).userId || (req as any).session?.userId;
     const [scheduled, sent, failed, pending, cancelled] = await Promise.all([
       prisma.email.count({ where: { userId, status: 'SCHEDULED' } }),
       prisma.email.count({ where: { userId, status: 'SENT' } }),
@@ -738,8 +763,9 @@ app.get(
 
 // ── Sender management ─────────────────────────────────────────────────────────
 app.get('/api/senders', auth, async (req: Request, res: Response) => {
+  const userId: string = (req as any).userId || (req as any).session?.userId;
   const senders = await prisma.sender.findMany({
-    where: { userId: (req as any).session.userId },
+    where: { userId },
     orderBy: { createdAt: 'asc' },
   });
   // Never expose SMTP credentials in the response
@@ -767,11 +793,12 @@ app.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const v = senderSchema.parse(req.body);
+      const userId: string = (req as any).userId || (req as any).session?.userId;
       const sender = await prisma.sender.create({
         data: {
           ...v,
           smtpConfiguration: encryptSmtpConfiguration(v.smtpConfiguration),
-          userId: (req as any).session.userId,
+          userId,
           hourlyLimit: v.hourlyLimit || cfg.hourlyLimit,
         },
       });
@@ -787,8 +814,9 @@ app.post(
   auth,
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const userId: string = (req as any).userId || (req as any).session?.userId;
       const sender = await prisma.sender.findFirst({
-        where: { id: routeId(req), userId: (req as any).session.userId },
+        where: { id: routeId(req), userId },
       });
       if (!sender) return res.status(404).json({ error: 'Sender not found' });
 
@@ -828,8 +856,9 @@ app.put(
       if (v.smtpConfiguration) {
         data.smtpConfiguration = encryptSmtpConfiguration(v.smtpConfiguration);
       }
+      const userId: string = (req as any).userId || (req as any).session?.userId;
       const out = await prisma.sender.updateMany({
-        where: { id: routeId(req), userId: (req as any).session.userId },
+        where: { id: routeId(req), userId },
         data,
       });
       res.json(out);
@@ -840,8 +869,9 @@ app.put(
 );
 
 app.delete('/api/senders/:id', auth, async (req: Request, res: Response) => {
+  const userId: string = (req as any).userId || (req as any).session?.userId;
   await prisma.sender.deleteMany({
-    where: { id: routeId(req), userId: (req as any).session.userId },
+    where: { id: routeId(req), userId },
   });
   res.json({ ok: true });
 });
@@ -902,10 +932,11 @@ app.get(
         );
       }
 
+      const userId: string = (req as any).userId || (req as any).session?.userId;
       await prisma.slackIntegration.upsert({
-        where: { userId: (req as any).session.userId },
+        where: { userId },
         create: {
-          userId: (req as any).session.userId,
+          userId,
           encryptedAccessToken: encrypt(
             token.authed_user.access_token,
           ),
@@ -930,8 +961,9 @@ app.get(
 );
 
 app.get('/api/slack/status', auth, async (req: Request, res: Response) => {
+  const userId: string = (req as any).userId || (req as any).session?.userId;
   const s = await prisma.slackIntegration.findUnique({
-    where: { userId: (req as any).session.userId },
+    where: { userId },
   });
   res.json({ connected: !!s, teamId: s?.teamId, teamName: s?.teamName });
 });
@@ -940,8 +972,9 @@ app.post(
   '/api/slack/disconnect',
   auth,
   async (req: Request, res: Response) => {
+    const userId: string = (req as any).userId || (req as any).session?.userId;
     await prisma.slackIntegration.deleteMany({
-      where: { userId: (req as any).session.userId },
+      where: { userId },
     });
     res.json({ ok: true });
   },
