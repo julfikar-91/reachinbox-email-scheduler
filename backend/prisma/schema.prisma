@@ -17,15 +17,16 @@ enum EmailStatus {
 }
 
 model User {
-  id        String             @id @default(cuid())
-  googleId  String             @unique
-  name      String
-  email     String             @unique
-  avatar    String?
-  createdAt DateTime           @default(now())
-  senders   Sender[]
-  emails    Email[]
-  slack     SlackIntegration?
+  id           String             @id @default(cuid())
+  googleId     String             @unique
+  name         String
+  email        String             @unique
+  passwordHash String?
+  avatar       String?
+  createdAt    DateTime           @default(now())
+  senders      Sender[]
+  emails       Email[]
+  slack        SlackIntegration?
 }
 
 model Sender {

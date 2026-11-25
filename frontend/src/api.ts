@@ -25,6 +25,8 @@ export const authApi = {
   me: () => http.get<{ user: User }>('/auth/me').then((r) => r.data.user),
   login: (payload?: { email?: string; password?: string }) =>
     http.post<{ ok: boolean; user: User }>('/auth/login', payload ?? {}).then((r) => r.data.user),
+  register: (payload: { name: string; email: string; password: string }) =>
+    http.post<{ ok: boolean; user: User }>('/auth/register', payload).then((r) => r.data.user),
   logout: () => http.post('/auth/logout'),
   googleUrl: () => `${http.defaults.baseURL}/auth/google`,
 };

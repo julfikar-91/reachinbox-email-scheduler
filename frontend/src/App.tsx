@@ -31,7 +31,7 @@ const EMPTY_STATS: DashboardStats = {
   scheduled: 0, sent: 0, failed: 0, pending: 0, cancelled: 0,
 };
 
-// ── Login screen (Exact Figma Image 1 match + Enterprise Polish) ─────────────
+// ── Login & Create Account screen ────────────────────────────────────────────
 function LoginScreen({
   authFailed,
   onLoginSuccess,
@@ -39,6 +39,8 @@ function LoginScreen({
   authFailed: boolean;
   onLoginSuccess: (user: User) => void;
 }) {
+  const [mode, setMode] = useState<'login' | 'register'>('login');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
@@ -46,40 +48,41 @@ function LoginScreen({
     authFailed ? 'Google sign-in did not complete. Check OAuth settings and try again.' : '',
   );
 
-  async function handleEmailLogin(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError('');
     try {
-      const user = await authApi.login({ email, password });
+      const user =
+        mode === 'register'
+          ? await authApi.register({ name, email, password })
+          : await authApi.login({ email, password });
       if (user) {
         onLoginSuccess(user);
       }
     } catch (err: any) {
-      setError(err.response?.data?.error || 'Login failed. Please check your credentials.');
+      setError(
+        err.response?.data?.error ||
+          (mode === 'register'
+            ? 'Account creation failed. Please check your details.'
+            : 'Login failed. Please check your credentials.'),
+      );
     } finally {
       setBusy(false);
     }
   }
 
-  function handleFillDemo() {
-    setEmail('oliver.brown@domain.io');
-    setPassword('demo1234');
+  function switchMode(nextMode: 'login' | 'register') {
+    setMode(nextMode);
     setError('');
   }
 
   return (
     <div className="figma-login-viewport">
       <div className="figma-login-card">
-        {/* Brand pill */}
-        <div style={{ textAlign: 'center' }}>
-          <div className="figma-login-brand-badge">
-            <span className="figma-logo-dot" />
-            <span>ReachInbox · Email Engine</span>
-          </div>
-        </div>
-
-        <h1 className="figma-login-title">Login</h1>
+        <h1 className="figma-login-title">
+          {mode === 'register' ? 'Create Account' : 'Login'}
+        </h1>
 
         {error && <div className="figma-login-error">{error}</div>}
 
@@ -96,14 +99,24 @@ function LoginScreen({
             <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
             <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
           </svg>
-          <span>Login with Google</span>
+          <span>{mode === 'register' ? 'Sign up with Google' : 'Login with Google'}</span>
         </button>
 
         <div className="figma-divider">
-          <span>or sign up through email</span>
+          <span>{mode === 'register' ? 'or create account with email' : 'or sign in with email'}</span>
         </div>
 
-        <form onSubmit={handleEmailLogin}>
+        <form onSubmit={handleSubmit}>
+          {mode === 'register' && (
+            <input
+              type="text"
+              className="figma-input"
+              placeholder="Full Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
+          )}
           <input
             type="email"
             className="figma-input"
@@ -115,20 +128,63 @@ function LoginScreen({
           <input
             type="password"
             className="figma-input"
-            placeholder="Password"
+            placeholder={mode === 'register' ? 'Password (min 6 characters)' : 'Password'}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            minLength={mode === 'register' ? 6 : undefined}
             required
           />
           <button type="submit" className="figma-submit-btn" disabled={busy}>
-            {busy ? 'Logging in…' : 'Login'}
+            {busy
+              ? mode === 'register'
+                ? 'Creating account…'
+                : 'Logging in…'
+              : mode === 'register'
+                ? 'Create Account'
+                : 'Login'}
           </button>
         </form>
 
-        {/* Quick Demo Credentials for Reviewers */}
-        <div className="figma-demo-pill" onClick={handleFillDemo} title="Click to auto-fill evaluator test credentials">
-          <span>⚡ Auto-fill demo credentials</span>
-          <span style={{ fontWeight: 600, color: '#00A843' }}>oliver.brown</span>
+        <div style={{ textAlign: 'center', marginTop: '16px', fontSize: '13px', color: '#6B7280' }}>
+          {mode === 'login' ? (
+            <>
+              Don&apos;t have an account?{' '}
+              <button
+                type="button"
+                onClick={() => switchMode('register')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#00A843',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  padding: 0,
+                  fontSize: '13px',
+                }}
+              >
+                Create account
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{' '}
+              <button
+                type="button"
+                onClick={() => switchMode('login')}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#00A843',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  padding: 0,
+                  fontSize: '13px',
+                }}
+              >
+                Login
+              </button>
+            </>
+          )}
         </div>
 
         <div className="figma-security-note">

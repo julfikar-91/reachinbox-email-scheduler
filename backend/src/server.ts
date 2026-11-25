@@ -10,7 +10,7 @@ import { createBullBoard } from '@bull-board/api';
 import { ExpressAdapter } from '@bull-board/express';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { z } from 'zod';
-import { randomBytes } from 'node:crypto';
+import { randomBytes, scryptSync, timingSafeEqual } from 'node:crypto';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import { prisma, emailQueue, redis, es } from './store.js';
@@ -315,28 +315,94 @@ app.post('/auth/logout', (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+function hashPassword(password: string): string {
+  const salt = randomBytes(16).toString('hex');
+  const derived = scryptSync(password, salt, 64).toString('hex');
+  return `${salt}:${derived}`;
+}
+
+function verifyPassword(password: string, stored: string): boolean {
+  const [salt, keyHex] = stored.split(':');
+  if (!salt || !keyHex) return false;
+  const derived = scryptSync(password, salt, 64);
+  const keyBuf = Buffer.from(keyHex, 'hex');
+  if (derived.length !== keyBuf.length) return false;
+  return timingSafeEqual(derived, keyBuf);
+}
+
+const registerSchema = z.object({
+  name: z.string().trim().min(1, 'Full name is required').max(100),
+  email: z.string().trim().email('Please enter a valid email address'),
+  password: z.string().min(6, 'Password must be at least 6 characters').max(128),
+});
+
+app.post('/auth/register', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const parsed = registerSchema.safeParse(req.body);
+    if (!parsed.success) {
+      return res.status(400).json({ error: parsed.error.issues[0]?.message || 'Invalid registration data' });
+    }
+    const email = parsed.data.email.toLowerCase();
+    const { name, password } = parsed.data;
+
+    const existing = await prisma.user.findUnique({ where: { email } });
+    if (existing && existing.passwordHash) {
+      return res.status(409).json({ error: 'An account with this email already exists. Please login.' });
+    }
+
+    const passwordHash = hashPassword(password);
+    const user = existing
+      ? await prisma.user.update({
+          where: { id: existing.id },
+          data: { name, passwordHash },
+        })
+      : await prisma.user.create({
+          data: {
+            googleId: `local-${email}-${Date.now()}`,
+            name,
+            email,
+            passwordHash,
+            avatar:
+              'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
+          },
+        });
+
+    (req as any).session.userId = user.id;
+    (req as any).session.save((err: any) => {
+      if (err) return next(err);
+      res.status(201).json({
+        ok: true,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          avatar: user.avatar,
+        },
+      });
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
 app.post('/auth/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rawEmail = String(req.body.email || '').trim().toLowerCase();
-    const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail)
-      ? rawEmail
-      : 'oliver.brown@domain.io';
+    const password = String(req.body.password || '');
 
-    let user = await prisma.user.findUnique({ where: { email } });
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(rawEmail)) {
+      return res.status(400).json({ error: 'Please enter a valid email address.' });
+    }
+
+    const user = await prisma.user.findUnique({ where: { email: rawEmail } });
     if (!user) {
-      const namePart = email
-        .split('@')[0]
-        .replace(/[._]/g, ' ')
-        .replace(/\b\w/g, (c) => c.toUpperCase());
-      user = await prisma.user.create({
-        data: {
-          googleId: `local-${email}-${Date.now()}`,
-          name: namePart || 'Oliver Brown',
-          email,
-          avatar:
-            'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
-        },
-      });
+      return res.status(401).json({ error: 'No account found with this email. Please create an account.' });
+    }
+
+    if (user.passwordHash) {
+      if (!password || !verifyPassword(password, user.passwordHash)) {
+        return res.status(401).json({ error: 'Invalid email or password.' });
+      }
     }
 
     (req as any).session.userId = user.id;
