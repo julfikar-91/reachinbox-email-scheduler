@@ -1,5 +1,5 @@
 // Compose New Email View (Exact Figma Images 3 & 4 match)
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ArrowLeft,
   Calendar,
@@ -66,6 +66,40 @@ export function Compose({ onClose, onDone }: ComposeProps) {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const attachmentInputRef = useRef<HTMLInputElement>(null);
+  const editorRef = useRef<HTMLDivElement>(null);
+
+  const [activeFormats, setActiveFormats] = useState({
+    bold: false,
+    italic: false,
+    underline: false,
+    strikeThrough: false,
+    orderedList: false,
+    unorderedList: false,
+  });
+
+  const updateActiveStates = useCallback(() => {
+    try {
+      setActiveFormats({
+        bold: document.queryCommandState('bold'),
+        italic: document.queryCommandState('italic'),
+        underline: document.queryCommandState('underline'),
+        strikeThrough: document.queryCommandState('strikeThrough'),
+        orderedList: document.queryCommandState('insertOrderedList'),
+        unorderedList: document.queryCommandState('insertUnorderedList'),
+      });
+    } catch {}
+  }, []);
+
+  function format(cmd: string, val: string | undefined = undefined) {
+    if (editorRef.current) {
+      editorRef.current.focus();
+    }
+    document.execCommand(cmd, false, val);
+    if (editorRef.current) {
+      setBody(editorRef.current.innerHTML);
+    }
+    updateActiveStates();
+  }
 
   function handleAttachmentUpload(file?: File) {
     if (!file) return;
@@ -161,7 +195,8 @@ export function Compose({ onClose, onDone }: ComposeProps) {
       return;
     }
 
-    if (!body.trim()) {
+    const finalBody = (editorRef.current?.innerHTML || body).trim();
+    if (!finalBody || finalBody === '<br>') {
       setError('Email body is required.');
       return;
     }
@@ -175,7 +210,7 @@ export function Compose({ onClose, onDone }: ComposeProps) {
     try {
       await emailsApi.schedule({
         subject,
-        body,
+        body: finalBody,
         recipients: finalRecipients,
         scheduledAt: when
           ? new Date(when).toISOString()
@@ -449,54 +484,125 @@ export function Compose({ onClose, onDone }: ComposeProps) {
         </div>
       </div>
 
-      {/* ── Rich Text Editor with floating Toolbar (Image 3) ────────────────── */}
+      {/* ── Rich Text Editor with Working Toolbar (Figma Match) ────────────── */}
       <div className="figma-editor-wrap">
         <div className="figma-editor-toolbar">
-          <button type="button" className="figma-toolbar-btn" title="Undo">
+          <button
+            type="button"
+            className="figma-toolbar-btn"
+            title="Undo (Ctrl+Z)"
+            onClick={() => format('undo')}
+          >
             <RotateCcw size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Redo">
+          <button
+            type="button"
+            className="figma-toolbar-btn"
+            title="Redo (Ctrl+Y)"
+            onClick={() => format('redo')}
+          >
             <RotateCw size={14} />
           </button>
           <div className="figma-toolbar-sep" />
-          <button type="button" className="figma-toolbar-btn" title="Typography">
+          <button
+            type="button"
+            className="figma-toolbar-btn"
+            title="Toggle Heading (TT)"
+            onClick={() => {
+              const current = document.queryCommandValue('formatBlock');
+              format('formatBlock', current === 'h2' || current === 'H2' ? '<p>' : '<h2>');
+            }}
+          >
             <Type size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Bold">
+          <button
+            type="button"
+            className={`figma-toolbar-btn ${activeFormats.bold ? 'active' : ''}`}
+            title="Bold (Ctrl+B)"
+            onClick={() => format('bold')}
+          >
             <Bold size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Italic">
+          <button
+            type="button"
+            className={`figma-toolbar-btn ${activeFormats.italic ? 'active' : ''}`}
+            title="Italic (Ctrl+I)"
+            onClick={() => format('italic')}
+          >
             <Italic size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Underline">
+          <button
+            type="button"
+            className={`figma-toolbar-btn ${activeFormats.underline ? 'active' : ''}`}
+            title="Underline (Ctrl+U)"
+            onClick={() => format('underline')}
+          >
             <Underline size={14} />
           </button>
+          <button
+            type="button"
+            className={`figma-toolbar-btn ${activeFormats.strikeThrough ? 'active' : ''}`}
+            title="Strikethrough"
+            onClick={() => format('strikeThrough')}
+          >
+            <Strikethrough size={14} />
+          </button>
           <div className="figma-toolbar-sep" />
-          <button type="button" className="figma-toolbar-btn" title="Align Left">
+          <button
+            type="button"
+            className="figma-toolbar-btn"
+            title="Align Left"
+            onClick={() => format('justifyLeft')}
+          >
             <AlignLeft size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Numbered List">
+          <button
+            type="button"
+            className={`figma-toolbar-btn ${activeFormats.orderedList ? 'active' : ''}`}
+            title="Numbered List"
+            onClick={() => format('insertOrderedList')}
+          >
             <ListOrdered size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Bullet List">
+          <button
+            type="button"
+            className={`figma-toolbar-btn ${activeFormats.unorderedList ? 'active' : ''}`}
+            title="Bullet List"
+            onClick={() => format('insertUnorderedList')}
+          >
             <List size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Quote">
+          <button
+            type="button"
+            className="figma-toolbar-btn"
+            title="Blockquote"
+            onClick={() => format('formatBlock', '<blockquote>')}
+          >
             <Quote size={14} />
           </button>
-          <button type="button" className="figma-toolbar-btn" title="Code">
+          <button
+            type="button"
+            className="figma-toolbar-btn"
+            title="Code Block"
+            onClick={() => format('formatBlock', '<pre>')}
+          >
             <Code size={14} />
-          </button>
-          <button type="button" className="figma-toolbar-btn" title="Strikethrough">
-            <Strikethrough size={14} />
           </button>
         </div>
 
-        <textarea
-          className="figma-editor-textarea"
-          placeholder="Type Your Reply..."
-          value={body}
-          onChange={(e) => setBody(e.target.value)}
+        <div
+          ref={editorRef}
+          contentEditable
+          suppressContentEditableWarning
+          className="figma-rich-editor"
+          data-placeholder="Type Your Reply..."
+          onInput={(e) => {
+            setBody((e.currentTarget as HTMLDivElement).innerHTML);
+            updateActiveStates();
+          }}
+          onKeyUp={updateActiveStates}
+          onMouseUp={updateActiveStates}
+          onSelect={updateActiveStates}
         />
 
         {/* Attachment preview cards matching Figma Images */}

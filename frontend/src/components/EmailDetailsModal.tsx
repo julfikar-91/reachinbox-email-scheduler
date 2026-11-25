@@ -280,33 +280,40 @@ export function EmailDetailsModal({
       {/* ── Message Body (Figma Image 2 Layout) ────────────────────────────── */}
       <div className="figma-detail-body-text">
         {bodyText ? (
-          <div>
-            {bodyText.split('\n\n').map((para, i) => {
-              // Highlight banner if paragraph contains exclusive offer or ⚡
-              if (para.includes('⚡') || para.includes('Exclusive') || para.includes('$25,000')) {
+          /<[a-z][\s\S]*>/i.test(bodyText) ? (
+            <div
+              className="figma-rendered-html"
+              dangerouslySetInnerHTML={{ __html: bodyText }}
+            />
+          ) : (
+            <div>
+              {bodyText.split('\n\n').map((para, i) => {
+                // Highlight banner if paragraph contains exclusive offer or ⚡
+                if (para.includes('⚡') || para.includes('Exclusive') || para.includes('$25,000')) {
+                  return (
+                    <div key={i} className="figma-callout-box">
+                      {para.split('\n').map((line, j) => (
+                        <div
+                          key={j}
+                          style={{
+                            fontWeight: line.includes('$25,000') ? 700 : 500,
+                            marginBottom: j === 0 ? '6px' : 0,
+                          }}
+                        >
+                          {line}
+                        </div>
+                      ))}
+                    </div>
+                  );
+                }
                 return (
-                  <div key={i} className="figma-callout-box">
-                    {para.split('\n').map((line, j) => (
-                      <div
-                        key={j}
-                        style={{
-                          fontWeight: line.includes('$25,000') ? 700 : 500,
-                          marginBottom: j === 0 ? '6px' : 0,
-                        }}
-                      >
-                        {line}
-                      </div>
-                    ))}
-                  </div>
+                  <p key={i} style={{ margin: '0 0 16px 0' }}>
+                    {para}
+                  </p>
                 );
-              }
-              return (
-                <p key={i} style={{ margin: '0 0 16px 0' }}>
-                  {para}
-                </p>
-              );
-            })}
-          </div>
+              })}
+            </div>
+          )
         ) : (
           <div>
             <p style={{ margin: '0 0 16px 0' }}>Hey Oliver,</p>
