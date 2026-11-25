@@ -56,13 +56,7 @@ export function Compose({ onClose, onDone }: ComposeProps) {
   const [error, setError] = useState('');
   const [showSendLater, setShowSendLater] = useState(false);
   const [showAllTags, setShowAllTags] = useState(false);
-  const [attachments, setAttachments] = useState<{ name: string; size: string; thumb?: string }[]>([
-    {
-      name: 'Tennis_Coach_Profile.png',
-      size: '1.2 MB',
-      thumb: 'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=400&h=260&fit=crop',
-    },
-  ]);
+  const [attachments, setAttachments] = useState<{ name: string; size: string; thumb?: string }[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const attachmentInputRef = useRef<HTMLInputElement>(null);

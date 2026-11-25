@@ -57,21 +57,7 @@ export function EmailDetailsModal({
   const displaySubject = email.subject || 'Oliver, hello there! | MJWYT44 BM#52W01';
   const bodyText = email.body || '';
 
-  // Default sample images matching Figma Image 2
-  const attachments = [
-    {
-      name: 'Tennis_Coach_Profile.png',
-      size: '1.2 MB',
-      thumb:
-        'https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=400&h=260&fit=crop',
-    },
-    {
-      name: 'Tennis_Coach_Profile2.png',
-      size: '1.2 MB',
-      thumb:
-        'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400&h=260&fit=crop',
-    },
-  ];
+  const attachments: { name: string; size: string; thumb: string }[] = [];
 
   return (
     <div className="figma-detail-view">
@@ -339,20 +325,22 @@ export function EmailDetailsModal({
         )}
       </div>
 
-      {/* ── Attachments Preview Cards (Figma Image 2) ──────────────────────── */}
-      <div className="figma-attachments-row">
-        {attachments.map((att, idx) => (
-          <div key={idx} className="figma-attachment-card">
-            <img src={att.thumb} alt={att.name} className="figma-attachment-thumb" />
-            <div className="figma-attachment-info">
-              <div className="figma-attachment-name" title={att.name}>
-                {att.name}
+      {/* ── Attachments Preview Cards ──────────────────────────────────────── */}
+      {attachments.length > 0 && (
+        <div className="figma-attachments-row">
+          {attachments.map((att, idx) => (
+            <div key={idx} className="figma-attachment-card">
+              <img src={att.thumb} alt={att.name} className="figma-attachment-thumb" />
+              <div className="figma-attachment-info">
+                <div className="figma-attachment-name" title={att.name}>
+                  {att.name}
+                </div>
+                <div className="figma-attachment-size">{att.size}</div>
               </div>
-              <div className="figma-attachment-size">{att.size}</div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
