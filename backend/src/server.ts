@@ -279,14 +279,22 @@ app.get(
     session: false,
   }),
   (req: Request, res: Response, next: NextFunction) => {
-    (req as any).session.regenerate((err: any) => {
-      if (err) return next(err);
-      (req as any).session.userId = (req as any).user.id;
+    const userId = (req as any).user?.id;
+    if (!userId) {
+      return res.redirect(`${cfg.frontend}/?auth=failed`);
+    }
+    if ((req as any).session) {
+      (req as any).session.userId = userId;
       (req as any).session.save((saveErr: any) => {
-        if (saveErr) return next(saveErr);
-        res.redirect(cfg.frontend);
+        if (saveErr) {
+          console.error('Session save error on Google callback:', saveErr);
+          return next(saveErr);
+        }
+        res.redirect(`${cfg.frontend}/overview`);
       });
-    });
+    } else {
+      res.redirect(`${cfg.frontend}/overview`);
+    }
   },
 );
 
