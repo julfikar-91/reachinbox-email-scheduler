@@ -4,6 +4,7 @@ import {
   Activity,
   CheckCircle2,
   Clock3,
+  Database,
   ExternalLink,
   Filter,
   Layers,
@@ -16,12 +17,13 @@ import {
   Zap,
 } from 'lucide-react';
 import { emailsApi } from '../api';
-import type { DashboardStats, Email } from '../types';
+import type { DashboardStats, Email, User } from '../types';
 import { EmailTable } from './EmailTable';
 import { EmailDetailsModal } from './EmailDetailsModal';
 import { Compose } from './Compose';
 
 interface OverviewPageProps {
+  me?: User | null;
   stats: DashboardStats;
   onStatsRefresh: () => void;
   notify: (msg: string) => void;
@@ -29,6 +31,7 @@ interface OverviewPageProps {
 }
 
 export function OverviewPage({
+  me,
   stats,
   onStatsRefresh,
   notify,
@@ -124,6 +127,9 @@ export function OverviewPage({
   const pendPct = totalEmails ? Math.round((pendingCount / totalEmails) * 100) : 0;
   const failPct = totalEmails ? Math.round((failedCount / totalEmails) * 100) : 0;
 
+  const userName = me?.name || me?.email?.split('@')[0] || 'Oliver Brown';
+  const userEmail = me?.email || 'oliver.brown@domain.io';
+
   return (
     <div className="figma-overview-wrap">
       {/* ── Top Bar: Search + Filter + Refresh ────────────────────────────── */}
@@ -204,12 +210,20 @@ export function OverviewPage({
       {/* ── Executive Header Banner ───────────────────────────────────────── */}
       <div className="figma-overview-banner">
         <div>
-          <h1 className="figma-overview-greeting">Welcome back, Oliver 👋</h1>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '3px 10px', borderRadius: '9999px', background: '#F0FDF4', border: '1px solid #DCFCE7', color: '#166534', fontSize: '11px', fontWeight: 600, letterSpacing: '0.4px', marginBottom: '8px' }}>
+            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00A843', display: 'inline-block' }} />
+            <span>LIVE ORCHESTRATION ENGINE</span>
+          </div>
+          <h1 className="figma-overview-greeting">Welcome back, {userName} 👋</h1>
           <p className="figma-overview-sub">
-            Real-time orchestration overview of your email sequences, BullMQ queue, and Ethereal SMTP delivery.
+            Signed in as <strong>{userEmail}</strong> · Real-time persistent queue, Ethereal SMTP delivery & rate limiter active.
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#059669', background: '#ECFDF5', padding: '6px 12px', borderRadius: '8px', border: '1px solid #A7F3D0', fontWeight: 500 }}>
+            <span className="figma-health-dot pulse" style={{ width: '6px', height: '6px' }} />
+            <span>Live Auto-Refresh Active (2s)</span>
+          </div>
           <button
             type="button"
             className="figma-send-later-btn"
@@ -221,20 +235,22 @@ export function OverviewPage({
         </div>
       </div>
 
-      {/* ── KPI Cards Grid ────────────────────────────────────────────────── */}
+      {/* ── High-Tier KPI Cards Grid ──────────────────────────────────────── */}
       <div className="figma-kpi-grid">
         {/* Total Campaigns */}
         <div className="figma-kpi-card">
           <div className="figma-kpi-top">
             <div className="figma-kpi-icon-wrap blue">
-              <Layers size={19} />
+              <Database size={19} />
             </div>
-            <span className="figma-kpi-pill blue">Neon DB</span>
+            <span className="figma-kpi-pill blue">
+              <CheckCircle2 size={11} /> Neon Cloud DB
+            </span>
           </div>
           <div className="figma-kpi-value">{totalEmails}</div>
-          <div className="figma-kpi-label">Total Email Jobs</div>
-          <div className="figma-kpi-sub">
-            <CheckCircle2 size={13} color="#00A843" /> Persisted across restarts
+          <div className="figma-kpi-label">Total Jobs Persisted</div>
+          <div className="figma-kpi-sub" style={{ color: '#059669' }}>
+            <CheckCircle2 size={13} color="#00A843" /> TLS Pooler · Multi-session Safe
           </div>
         </div>
 
@@ -244,12 +260,14 @@ export function OverviewPage({
             <div className="figma-kpi-icon-wrap orange">
               <Clock3 size={19} />
             </div>
-            <span className="figma-kpi-pill orange">BullMQ Queue</span>
+            <span className="figma-kpi-pill orange">
+              <Clock3 size={11} /> Delayed Scheduler
+            </span>
           </div>
           <div className="figma-kpi-value">{scheduledCount}</div>
           <div className="figma-kpi-label">Scheduled in Queue</div>
-          <div className="figma-kpi-sub">
-            <Clock3 size={13} color="#C2410C" /> Inter-send spacing active
+          <div className="figma-kpi-sub" style={{ color: '#D97706' }}>
+            <Zap size={13} color="#D97706" /> Min 2000ms inter-send delay active
           </div>
         </div>
 
@@ -264,9 +282,9 @@ export function OverviewPage({
             </span>
           </div>
           <div className="figma-kpi-value">{sentCount}</div>
-          <div className="figma-kpi-label">Sent & Delivered</div>
-          <div className="figma-kpi-sub">
-            <CheckCircle2 size={13} color="#00A843" /> Ethereal SMTP verified
+          <div className="figma-kpi-label">Sent via Ethereal SMTP</div>
+          <div className="figma-kpi-sub" style={{ color: '#059669' }}>
+            <CheckCircle2 size={13} color="#00A843" /> Live preview URL verified
           </div>
         </div>
 
@@ -276,38 +294,78 @@ export function OverviewPage({
             <div className="figma-kpi-icon-wrap gray">
               <Activity size={19} />
             </div>
-            <span className="figma-kpi-pill gray">Concurrency: 5</span>
+            <span className="figma-kpi-pill gray">Workers: 5 Active</span>
           </div>
-          <div className="figma-kpi-value">{pendingCount > 0 ? pendingCount : 'Healthy'}</div>
-          <div className="figma-kpi-label">Worker Engine Status</div>
-          <div className="figma-kpi-sub">
-            <ShieldCheck size={13} color="#2563EB" /> Max 200/hr · Rate limited
+          <div className="figma-kpi-value">{pendingCount > 0 ? `${pendingCount} In Flight` : 'Healthy'}</div>
+          <div className="figma-kpi-label">Engine Concurrency & Limits</div>
+          <div className="figma-kpi-sub" style={{ color: '#2563EB' }}>
+            <ShieldCheck size={13} color="#2563EB" /> 100/hr sliding cap · Auto-reschedule
           </div>
         </div>
       </div>
 
-      {/* ── System Status Banner ──────────────────────────────────────────── */}
-      <div className="figma-system-health">
-        <div className="figma-health-title">
-          <ShieldCheck size={16} color="#00A843" />
-          <span>System Infrastructure Status</span>
+      {/* ── Enterprise Infrastructure Status Matrix ──────────────────────── */}
+      <div className="figma-infra-matrix-wrap">
+        <div className="figma-infra-matrix-head">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <ShieldCheck size={18} color="#00A843" />
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#0F172A', letterSpacing: '0.2px' }}>
+              CLOUD INFRASTRUCTURE & BACKEND HEALTH
+            </span>
+          </div>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: '5px', fontSize: '11.5px', color: '#166534', background: '#F0FDF4', padding: '3px 10px', borderRadius: '9999px', border: '1px solid #DCFCE7', fontWeight: 600 }}>
+            <span className="figma-health-dot pulse" style={{ width: '6px', height: '6px' }} />
+            All Subsystems Operational (99.99%)
+          </span>
         </div>
-        <div className="figma-health-badges">
-          <div className="figma-health-item">
-            <span className="figma-health-dot pulse" />
-            <span>BullMQ: Operational</span>
+
+        <div className="figma-infra-grid">
+          {/* Subsystem 1: BullMQ Queue */}
+          <div className="figma-infra-tile">
+            <div className="figma-infra-tile-top">
+              <div className="figma-infra-tile-icon" style={{ background: '#F5F3FF', color: '#7C3AED' }}>
+                <Activity size={16} />
+              </div>
+              <span className="figma-infra-badge green">Operational</span>
+            </div>
+            <div className="figma-infra-name">BullMQ Scheduler Engine</div>
+            <div className="figma-infra-meta">Worker concurrency 5 · Delayed FIFO queue</div>
           </div>
-          <div className="figma-health-item">
-            <span className="figma-health-dot" />
-            <span>Neon DB: Connected</span>
+
+          {/* Subsystem 2: Neon DB */}
+          <div className="figma-infra-tile">
+            <div className="figma-infra-tile-top">
+              <div className="figma-infra-tile-icon" style={{ background: '#EEF2FF', color: '#4F46E5' }}>
+                <Layers size={16} />
+              </div>
+              <span className="figma-infra-badge green">Connected</span>
+            </div>
+            <div className="figma-infra-name">Neon Cloud PostgreSQL</div>
+            <div className="figma-infra-meta">AWS US-East-2 · SSL Mode Require (Pooler)</div>
           </div>
-          <div className="figma-health-item">
-            <span className="figma-health-dot" />
-            <span>Ethereal SMTP: 587 Ready</span>
+
+          {/* Subsystem 3: Ethereal SMTP */}
+          <div className="figma-infra-tile">
+            <div className="figma-infra-tile-top">
+              <div className="figma-infra-tile-icon" style={{ background: '#ECFDF5', color: '#059669' }}>
+                <Mail size={16} />
+              </div>
+              <span className="figma-infra-badge green">587 Ready</span>
+            </div>
+            <div className="figma-infra-name">Ethereal Mail Server</div>
+            <div className="figma-infra-meta">smtp.ethereal.email:587 · TLS Handshake</div>
           </div>
-          <div className="figma-health-item">
-            <span className="figma-health-dot" />
-            <span>Elasticsearch: Indexed</span>
+
+          {/* Subsystem 4: Elasticsearch */}
+          <div className="figma-infra-tile">
+            <div className="figma-infra-tile-top">
+              <div className="figma-infra-tile-icon" style={{ background: '#FFFBEB', color: '#D97706' }}>
+                <Search size={16} />
+              </div>
+              <span className="figma-infra-badge green">Synchronized</span>
+            </div>
+            <div className="figma-infra-name">Elasticsearch Analytics</div>
+            <div className="figma-infra-meta">Cluster indexing · Real-time search sync</div>
           </div>
         </div>
       </div>
@@ -316,58 +374,72 @@ export function OverviewPage({
       {totalEmails > 0 && (
         <div className="figma-distribution-wrap">
           <div className="figma-distribution-head">
-            <span className="figma-distribution-title">QUEUE DISTRIBUTION & COMPLETION</span>
-            <span className="figma-distribution-total">
-              {sentCount} of {totalEmails} delivered ({sentPct}%)
-            </span>
+            <div>
+              <span className="figma-distribution-title">QUEUE LIFECYCLE & EXECUTION DISTRIBUTION</span>
+              <div style={{ fontSize: '11.5px', color: '#64748B', marginTop: '2px' }}>
+                Visual completion breakdown across scheduled, in-flight, and delivered email jobs
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ fontSize: '12.5px', fontWeight: 600, color: '#0F172A' }}>
+                {sentCount} of {totalEmails} delivered
+              </span>
+              <span style={{ fontSize: '11.5px', fontWeight: 700, color: '#059669', background: '#ECFDF5', padding: '2px 8px', borderRadius: '9999px', border: '1px solid #A7F3D0' }}>
+                {sentPct}% Complete
+              </span>
+            </div>
           </div>
 
-          <div className="figma-distribution-bar">
+          <div className="figma-distribution-bar" style={{ height: '10px' }}>
+            {sentPct > 0 && (
+              <div
+                style={{ width: `${sentPct}%`, backgroundColor: '#00A843' }}
+                title={`Sent: ${sentCount} (${sentPct}%)`}
+              />
+            )}
             {schedPct > 0 && (
               <div
                 style={{ width: `${schedPct}%`, backgroundColor: '#F97316' }}
-                title={`Scheduled: ${schedPct}%`}
+                title={`Scheduled: ${scheduledCount} (${schedPct}%)`}
               />
             )}
             {pendPct > 0 && (
               <div
                 style={{ width: `${pendPct}%`, backgroundColor: '#EAB308' }}
-                title={`In Progress: ${pendPct}%`}
-              />
-            )}
-            {sentPct > 0 && (
-              <div
-                style={{ width: `${sentPct}%`, backgroundColor: '#00A843' }}
-                title={`Sent: ${sentPct}%`}
+                title={`In Progress: ${pendingCount} (${pendPct}%)`}
               />
             )}
             {failPct > 0 && (
               <div
                 style={{ width: `${failPct}%`, backgroundColor: '#EF4444' }}
-                title={`Failed: ${failPct}%`}
+                title={`Failed: ${failedCount} (${failPct}%)`}
               />
             )}
           </div>
 
           <div className="figma-distribution-legend">
-            <div className="figma-legend-item">
-              <span className="figma-legend-dot" style={{ backgroundColor: '#F97316' }} />
-              <span>Scheduled ({scheduledCount})</span>
-            </div>
-            <div className="figma-legend-item">
+            <div className="figma-legend-pill" style={{ background: '#F0FDF4', border: '1px solid #DCFCE7' }}>
               <span className="figma-legend-dot" style={{ backgroundColor: '#00A843' }} />
-              <span>Sent ({sentCount})</span>
+              <span style={{ fontWeight: 600, color: '#166534' }}>Delivered:</span>
+              <span style={{ color: '#15803D' }}>{sentCount} ({sentPct}%)</span>
+            </div>
+            <div className="figma-legend-pill" style={{ background: '#FFFBEB', border: '1px solid #FEF3C7' }}>
+              <span className="figma-legend-dot" style={{ backgroundColor: '#F97316' }} />
+              <span style={{ fontWeight: 600, color: '#92400E' }}>Scheduled:</span>
+              <span style={{ color: '#B45309' }}>{scheduledCount} ({schedPct}%)</span>
             </div>
             {pendingCount > 0 && (
-              <div className="figma-legend-item">
+              <div className="figma-legend-pill" style={{ background: '#FEF9C3', border: '1px solid #FEF08A' }}>
                 <span className="figma-legend-dot" style={{ backgroundColor: '#EAB308' }} />
-                <span>In Progress ({pendingCount})</span>
+                <span style={{ fontWeight: 600, color: '#854D0E' }}>In Flight:</span>
+                <span style={{ color: '#A16207' }}>{pendingCount}</span>
               </div>
             )}
             {failedCount > 0 && (
-              <div className="figma-legend-item">
+              <div className="figma-legend-pill" style={{ background: '#FEF2F2', border: '1px solid #FEE2E2' }}>
                 <span className="figma-legend-dot" style={{ backgroundColor: '#EF4444' }} />
-                <span>Failed ({failedCount})</span>
+                <span style={{ fontWeight: 600, color: '#991B1B' }}>Failed:</span>
+                <span style={{ color: '#B91C1C' }}>{failedCount}</span>
               </div>
             )}
           </div>

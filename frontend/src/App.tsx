@@ -225,6 +225,7 @@ export default function App() {
             path="/overview"
             element={
               <OverviewPage
+                me={me}
                 stats={stats}
                 onStatsRefresh={refreshStats}
                 notify={notify}
