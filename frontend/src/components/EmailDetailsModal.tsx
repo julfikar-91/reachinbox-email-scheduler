@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   Download,
   Check,
+  Send,
 } from 'lucide-react';
 import type { Email } from '../types';
 
@@ -17,6 +18,7 @@ interface EmailDetailsModalProps {
   email: Email | null;
   onClose: () => void;
   onCancel?: (id: string) => void;
+  onSendNow?: (id: string) => void;
 }
 
 function formatDetailDate(dateStr?: string | null): string {
@@ -32,7 +34,12 @@ function formatDetailDate(dateStr?: string | null): string {
   });
 }
 
-export function EmailDetailsModal({ email, onClose, onCancel }: EmailDetailsModalProps) {
+export function EmailDetailsModal({
+  email,
+  onClose,
+  onCancel,
+  onSendNow,
+}: EmailDetailsModalProps) {
   const [starred, setStarred] = useState(false);
   const [showRecipientDropdown, setShowRecipientDropdown] = useState(false);
 
@@ -103,6 +110,28 @@ export function EmailDetailsModal({ email, onClose, onCancel }: EmailDetailsModa
           >
             <Archive size={17} />
           </button>
+
+          {/* Send Now action for scheduled emails */}
+          {isScheduled && onSendNow && (
+            <button
+              type="button"
+              className="figma-send-later-btn"
+              title="Confirm & send email immediately"
+              onClick={() => {
+                onSendNow(email.id);
+                onClose();
+              }}
+              style={{
+                height: '32px',
+                padding: '0 12px',
+                fontSize: '12px',
+                display: 'inline-flex',
+                gap: '5px',
+              }}
+            >
+              <Send size={13} /> Send Now
+            </button>
+          )}
 
           {/* Delete / Cancel action */}
           {isScheduled && onCancel ? (

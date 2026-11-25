@@ -60,6 +60,17 @@ export function ScheduledPage({ notify, onStatsRefresh, onCompose }: ScheduledPa
     }
   }
 
+  async function handleSendNow(id: string) {
+    try {
+      await emailsApi.sendNow(id);
+      notify('Email confirmed and sent successfully via Ethereal SMTP!');
+      load();
+      onStatsRefresh();
+    } catch (e: any) {
+      notify(e.response?.data?.error ?? 'Could not send email');
+    }
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
       {/* ── Figma Top Bar: Search + Filter + Refresh ──────────────────────── */}
@@ -146,6 +157,7 @@ export function ScheduledPage({ notify, onStatsRefresh, onCompose }: ScheduledPa
         mode="scheduled"
         onRetry={load}
         onCancel={handleCancel}
+        onSendNow={handleSendNow}
         onDetail={(email) => setSelectedEmail(email)}
         onPageChange={setPage}
         onCompose={onCompose}
@@ -157,6 +169,7 @@ export function ScheduledPage({ notify, onStatsRefresh, onCompose }: ScheduledPa
           email={selectedEmail}
           onClose={() => setSelectedEmail(null)}
           onCancel={handleCancel}
+          onSendNow={handleSendNow}
         />
       )}
     </div>

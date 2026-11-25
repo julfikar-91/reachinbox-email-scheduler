@@ -17,10 +17,10 @@ import { Toast } from './components/ui';
 
 // ── Page metadata ─────────────────────────────────────────────────────────────
 const PAGE_META: Record<string, [title: string, subtitle: string]> = {
-  '/':          ['Scheduled',         'Manage and keep track of your scheduled emails.'],
+  '/':          ['Overview',          "Here's what's happening with your email campaigns today."],
+  '/overview':  ['Overview',          "Here's what's happening with your email campaigns today."],
   '/scheduled': ['Scheduled',         'Manage and keep track of your scheduled emails.'],
   '/sent':      ['Sent',              'A complete view of your sent and failed emails.'],
-  '/overview':  ['Overview',          "Here's what's happening with your email campaigns today."],
   '/senders':   ['Senders',           'Manage SMTP sender accounts and hourly caps.'],
   '/slack':     ['Slack integration', 'Connect Slack to receive rate-limit notifications.'],
   '/queue':     ['Queue monitor',     'Live BullMQ job processing overview.'],
@@ -189,7 +189,18 @@ export default function App() {
         }
       >
         <Routes>
-          <Route path="/" element={<Navigate to="/scheduled" replace />} />
+          <Route path="/" element={<Navigate to="/overview" replace />} />
+          <Route
+            path="/overview"
+            element={
+              <OverviewPage
+                stats={stats}
+                onStatsRefresh={refreshStats}
+                notify={notify}
+                onCompose={() => setCompose(true)}
+              />
+            }
+          />
           <Route
             path="/scheduled"
             element={
@@ -201,16 +212,6 @@ export default function App() {
             }
           />
           <Route path="/sent" element={<SentPage notify={notify} />} />
-          <Route
-            path="/overview"
-            element={
-              <OverviewPage
-                stats={stats}
-                onStatsRefresh={refreshStats}
-                notify={notify}
-              />
-            }
-          />
           <Route path="/senders" element={<SenderPage notify={notify} />} />
           <Route path="/slack" element={<SlackPage notify={notify} />} />
           <Route path="/queue" element={<QueuePage />} />

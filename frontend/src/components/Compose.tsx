@@ -137,9 +137,16 @@ export function Compose({ onClose, onDone }: ComposeProps) {
   async function handleSubmit() {
     setError('');
 
-    // Also pick up any trailing recipient typed in input
-    const trailing = recipientInput.trim().toLowerCase();
+    // Also pick up any trailing recipients typed in input
     const finalRecipients = [...emails];
+    const extra = recipientInput.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi) ?? [];
+    for (const em of extra) {
+      const lower = em.toLowerCase();
+      if (!finalRecipients.includes(lower)) {
+        finalRecipients.push(lower);
+      }
+    }
+    const trailing = recipientInput.trim().toLowerCase();
     if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trailing) && !finalRecipients.includes(trailing)) {
       finalRecipients.push(trailing);
     }
@@ -306,7 +313,12 @@ export function Compose({ onClose, onDone }: ComposeProps) {
                 <button
                   type="button"
                   className="figma-popover-done"
-                  onClick={() => setShowSendLater(false)}
+                  onClick={() => {
+                    setShowSendLater(false);
+                    if ((emails.length > 0 || recipientInput.trim()) && subject.trim() && body.trim()) {
+                      handleSubmit();
+                    }
+                  }}
                 >
                   Done
                 </button>

@@ -134,8 +134,24 @@ export function Shell({
         {/* Section: CORE */}
         <div className="figma-section-title">CORE</div>
 
-        {/* Navigation items: Scheduled & Sent */}
+        {/* Navigation items: Overview, Scheduled & Sent */}
         <nav className="figma-nav-list">
+          <NavLink
+            to="/overview"
+            onClick={onMenuClose}
+            className={({ isActive }) =>
+              `figma-nav-link ${isActive ? 'active' : ''}`
+            }
+          >
+            <div className="figma-nav-link-left">
+              <LayoutDashboard size={17} />
+              <span>Overview</span>
+            </div>
+            <span className="figma-nav-badge">
+              {(stats.scheduled || 0) + (stats.sent || 0) + (stats.pending || 0)}
+            </span>
+          </NavLink>
+
           <NavLink
             to="/scheduled"
             onClick={onMenuClose}
@@ -164,6 +180,50 @@ export function Shell({
               <span>Sent</span>
             </div>
             <span className="figma-nav-badge">{stats.sent ?? 0}</span>
+          </NavLink>
+        </nav>
+
+        {/* Section: MANAGEMENT */}
+        <div className="figma-nav-divider" />
+        <div className="figma-section-title">MANAGEMENT</div>
+        <nav className="figma-nav-list">
+          <NavLink
+            to="/senders"
+            onClick={onMenuClose}
+            className={({ isActive }) =>
+              `figma-nav-link ${isActive ? 'active' : ''}`
+            }
+          >
+            <div className="figma-nav-link-left">
+              <Users size={16} />
+              <span>Senders</span>
+            </div>
+          </NavLink>
+
+          <NavLink
+            to="/slack"
+            onClick={onMenuClose}
+            className={({ isActive }) =>
+              `figma-nav-link ${isActive ? 'active' : ''}`
+            }
+          >
+            <div className="figma-nav-link-left">
+              <Link2 size={16} />
+              <span>Slack Alerts</span>
+            </div>
+          </NavLink>
+
+          <NavLink
+            to="/queue"
+            onClick={onMenuClose}
+            className={({ isActive }) =>
+              `figma-nav-link ${isActive ? 'active' : ''}`
+            }
+          >
+            <div className="figma-nav-link-left">
+              <Activity size={16} />
+              <span>BullMQ Queue</span>
+            </div>
           </NavLink>
         </nav>
       </aside>

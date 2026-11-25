@@ -1,6 +1,6 @@
 // Email table — reused on both Scheduled and Sent pages (Exact Figma Image 2 match)
 import React from 'react';
-import { Clock, ExternalLink, Star, X } from 'lucide-react';
+import { Clock, ExternalLink, Send, Star, X } from 'lucide-react';
 import type { Email } from '../types';
 import { Pagination } from './ui';
 
@@ -13,6 +13,7 @@ interface EmailTableProps {
   mode: 'scheduled' | 'sent';
   onRetry: () => void;
   onCancel?: (id: string) => void;
+  onSendNow?: (id: string) => void;
   onDetail?: (row: Email) => void;
   onPageChange: (p: number) => void;
   onCompose?: () => void;
@@ -41,6 +42,7 @@ export function EmailTable({
   mode,
   onRetry,
   onCancel,
+  onSendNow,
   onDetail,
   onPageChange,
   onCompose,
@@ -146,6 +148,18 @@ export function EmailTable({
 
             {/* Actions: Cancel / Ethereal Preview / Star */}
             <div className="figma-row-actions" onClick={(e) => e.stopPropagation()}>
+              {mode === 'scheduled' && onSendNow && (
+                <button
+                  type="button"
+                  className="figma-row-action-btn"
+                  title="Send & confirm now"
+                  onClick={() => onSendNow(r.id)}
+                  style={{ color: '#00A843' }}
+                >
+                  <Send size={15} />
+                </button>
+              )}
+
               {mode === 'scheduled' && onCancel && (
                 <button
                   type="button"

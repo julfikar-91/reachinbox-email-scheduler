@@ -57,6 +57,9 @@ export const emailsApi = {
   cancel: (id: string) =>
     http.post<{ ok: boolean }>(`/api/emails/${id}/cancel`).then((r) => r.data),
 
+  sendNow: (id: string) =>
+    http.post<{ ok: boolean; message: string; item?: Email }>(`/api/emails/${id}/send-now`).then((r) => r.data),
+
   delete: (id: string) =>
     http.delete<{ ok: boolean }>(`/api/emails/${id}`).then((r) => r.data),
 };

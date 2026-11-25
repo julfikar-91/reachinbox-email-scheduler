@@ -22,6 +22,7 @@ import {
   publicSender,
 } from './security.js';
 import { emailIdempotencyKey, sendDelayMs } from './scheduling.js';
+import { processEmailDelivery } from './delivery.js';
 
 // ── Type augmentations ────────────────────────────────────────────────────────
 declare module 'express-session' {
@@ -743,6 +744,33 @@ async function cancelEmailHandler(req: Request, res: Response) {
 
 app.delete('/api/emails/:id', auth, cancelEmailHandler);
 app.post('/api/emails/:id/cancel', auth, cancelEmailHandler);
+
+// ── POST /api/emails/:id/send-now (Confirm & send immediately) ──────────────
+app.post('/api/emails/:id/send-now', auth, async (req: Request, res: Response) => {
+  const userId = (req as any).userId || (req as any).session?.userId;
+  const id = routeId(req);
+  const email = await prisma.email.findFirst({
+    where: { id, userId },
+  });
+  if (!email) return res.status(404).json({ error: 'Email not found' });
+  if (email.status === 'SENT') {
+    return res.json({ ok: true, message: 'Email already sent', item: formatEmail(email) });
+  }
+
+  // Update scheduledAt to now
+  await prisma.email.update({
+    where: { id },
+    data: { scheduledAt: new Date() },
+  });
+
+  // Process delivery immediately
+  await processEmailDelivery(id);
+  const updated = await prisma.email.findUnique({
+    where: { id },
+    include: { sender: { select: { id: true, email: true } } },
+  });
+  res.json({ ok: true, message: 'Email confirmed and sent successfully', item: updated ? formatEmail(updated) : null });
+});
 
 // ── Dashboard stats ───────────────────────────────────────────────────────────
 app.get(
