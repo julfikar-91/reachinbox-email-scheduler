@@ -47,6 +47,13 @@ export function EmailTable({
   onPageChange,
   onCompose,
 }: EmailTableProps) {
+  const [starredIds, setStarredIds] = React.useState<Record<string, boolean>>({});
+
+  function toggleStar(id: string, e: React.MouseEvent) {
+    e.stopPropagation();
+    setStarredIds((prev) => ({ ...prev, [id]: !prev[id] }));
+  }
+
   if (loading) {
     return (
       <div style={{ padding: '32px 24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
@@ -203,8 +210,10 @@ export function EmailTable({
                 type="button"
                 className="figma-row-star"
                 title="Star email"
+                onClick={(e) => toggleStar(r.id, e)}
+                style={{ color: starredIds[r.id] ? '#F59E0B' : undefined }}
               >
-                <Star size={16} />
+                <Star size={16} fill={starredIds[r.id] ? '#F59E0B' : 'none'} />
               </button>
             </div>
           </div>

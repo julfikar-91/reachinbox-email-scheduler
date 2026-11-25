@@ -202,21 +202,21 @@ export function OverviewPage({
       </div>
 
       {/* ── Executive Header Banner ───────────────────────────────────────── */}
-      <div className="figma-overview-head">
-        <div className="figma-overview-welcome">
-          <h1>Overview Dashboard</h1>
-          <p>
-            Real-time status of your email sequences, BullMQ persistent queue, and Ethereal SMTP delivery.
+      <div className="figma-overview-banner">
+        <div>
+          <h1 className="figma-overview-greeting">Welcome back, Oliver 👋</h1>
+          <p className="figma-overview-sub">
+            Real-time orchestration overview of your email sequences, BullMQ queue, and Ethereal SMTP delivery.
           </p>
         </div>
-        <div className="figma-overview-actions">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
           <button
             type="button"
             className="figma-send-later-btn"
             onClick={onCompose || (() => setComposeOpen(true))}
-            style={{ display: 'inline-flex', padding: '0 20px', height: '38px' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '0 18px', height: '38px', borderRadius: '8px' }}
           >
-            <Plus size={16} /> Compose New Email
+            <Plus size={16} /> Compose Campaign
           </button>
         </div>
       </div>

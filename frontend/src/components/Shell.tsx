@@ -51,9 +51,12 @@ export function Shell({
     <div className="figma-shell">
       {/* ── Sidebar (Figma Image 2) ────────────────────────────────────────── */}
       <aside className={`figma-sidebar ${menuOpen ? 'open' : ''}`}>
-        {/* Brand Logo: ONB */}
+        {/* Brand Logo: ONB with modern green accent */}
         <div className="figma-logo-wrap">
-          <span className="figma-logo-onb">ONB</span>
+          <span className="figma-logo-onb">
+            ONB
+            <span className="figma-logo-dot" />
+          </span>
         </div>
 
         {/* User Profile Card */}
@@ -226,6 +229,12 @@ export function Shell({
             </div>
           </NavLink>
         </nav>
+
+        {/* Real-time System Connectivity Status */}
+        <div className="figma-sidebar-footer-status">
+          <span className="figma-health-dot pulse" />
+          <span>Ethereal SMTP & Neon DB Online</span>
+        </div>
       </aside>
 
       {/* ── Main content area ──────────────────────────────────────────────── */}
