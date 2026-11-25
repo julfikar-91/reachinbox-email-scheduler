@@ -1,6 +1,6 @@
 // Email table — reused on both Scheduled and Sent pages (Exact Figma Image 2 match)
 import React from 'react';
-import { Clock, ExternalLink, Send, Star, X } from 'lucide-react';
+import { AlertCircle, Check, Clock, ExternalLink, RotateCw, Send, Star, X } from 'lucide-react';
 import type { Email } from '../types';
 import { Pagination } from './ui';
 
@@ -127,15 +127,30 @@ export function EmailTable({
               {displayRecipient}
             </div>
 
-            {/* Badge: Orange time badge for Scheduled, Gray "Sent" pill for Sent (matching Figma Images) */}
-            {mode === 'sent' ? (
+            {/* Badge: Dynamic status badge based on actual email state */}
+            {r.status === 'SENT' ? (
+              <span className="figma-sent-badge success" title={`Delivered via Ethereal SMTP at ${timeStr}`}>
+                <Check size={12} strokeWidth={2.5} />
+                <span>Sent</span>
+              </span>
+            ) : r.status === 'PROCESSING' || r.status === 'SENDING' ? (
+              <span className="figma-sending-badge" title="Actively dispatching via Ethereal SMTP...">
+                <RotateCw size={12} className="spin" />
+                <span>Sending…</span>
+              </span>
+            ) : r.status === 'FAILED' ? (
+              <span className="figma-failed-badge" title={r.errorMessage || 'Delivery failed'}>
+                <AlertCircle size={12} />
+                <span>Failed</span>
+              </span>
+            ) : r.status === 'CANCELLED' ? (
               <span className="figma-sent-badge">
-                {r.status === 'SENT' ? 'Sent' : r.status === 'FAILED' ? 'Failed' : 'Cancelled'}
+                <span>Cancelled</span>
               </span>
             ) : (
-              <div className="figma-row-time-badge">
+              <div className="figma-row-time-badge" title={`Scheduled for ${timeStr}`}>
                 <Clock size={12} />
-                <span>{timeStr}</span>
+                <span>{timeStr || 'Scheduled'}</span>
               </div>
             )}
 
@@ -146,9 +161,9 @@ export function EmailTable({
               <span className="figma-row-snippet">{snippet}</span>
             </div>
 
-            {/* Actions: Cancel / Ethereal Preview / Star */}
+            {/* Actions: Cancel / Send Now / Ethereal Preview / Star */}
             <div className="figma-row-actions" onClick={(e) => e.stopPropagation()}>
-              {mode === 'scheduled' && onSendNow && (
+              {r.status === 'SCHEDULED' && onSendNow && (
                 <button
                   type="button"
                   className="figma-row-action-btn"
@@ -160,7 +175,7 @@ export function EmailTable({
                 </button>
               )}
 
-              {mode === 'scheduled' && onCancel && (
+              {r.status === 'SCHEDULED' && onCancel && (
                 <button
                   type="button"
                   className="figma-row-action-btn"
@@ -171,13 +186,14 @@ export function EmailTable({
                 </button>
               )}
 
-              {mode === 'sent' && r.previewUrl && (
+              {r.status === 'SENT' && r.previewUrl && (
                 <a
                   href={r.previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="figma-row-action-btn"
                   title="Open Ethereal Preview"
+                  style={{ color: '#00A843' }}
                 >
                   <ExternalLink size={15} />
                 </a>

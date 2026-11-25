@@ -47,7 +47,12 @@ export function ScheduledPage({ notify, onStatsRefresh, onCompose }: ScheduledPa
 
   useEffect(() => {
     load();
-  }, [load]);
+    const interval = setInterval(() => {
+      load();
+      onStatsRefresh();
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [load, onStatsRefresh]);
 
   async function handleCancel(id: string) {
     try {
