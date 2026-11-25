@@ -50,49 +50,81 @@ function Sparkline({ color, type }: { color: string; type: 'up' | 'flat' | 'wave
   );
 }
 
-// Donut chart for queue distribution
+// Donut chart for queue distribution — correctly computed SVG arcs
 function DonutChart({ sent, scheduled, total }: { sent: number; scheduled: number; total: number }) {
-  const r = 36;
-  const cx = 44;
-  const cy = 44;
+  const r = 32;
+  const size = 88;
+  const cx = size / 2;
+  const cy = size / 2;
+  const strokeWidth = 10;
   const circumference = 2 * Math.PI * r;
-  const sentPct = total > 0 ? sent / total : 0;
-  const sentDash = circumference * sentPct;
-  const schedPct = total > 0 ? scheduled / total : 0;
-  const schedDash = circumference * schedPct;
-  const sentOffset = -circumference * 0.25; // start top
-  const schedOffset = sentOffset - sentDash;
+
+  // Fractions (clamp so we never exceed 100%)
+  const safeTotal = total > 0 ? total : 1;
+  const sentFrac = Math.min(sent / safeTotal, 1);
+  const schedFrac = Math.min(scheduled / safeTotal, 1 - sentFrac);
+
+  const sentLen   = circumference * sentFrac;
+  const schedLen  = circumference * schedFrac;
+  const emptyLen  = circumference * Math.max(0, 1 - sentFrac - schedFrac);
+
+  // SVG arcs start at 3-o'clock; we want 12-o'clock → rotate -90°
+  // dashoffset trick: offset = circumference - (arcs before this segment)
+  // For the first arc (sent): offset = circumference * 0.25 (quarter turn, starts top)
+  const sentOffset   = circumference * 0.25;
+  const schedOffset  = circumference * 0.25 - sentLen;
 
   return (
-    <svg width="88" height="88" viewBox="0 0 88 88">
-      {/* track */}
-      <circle cx={cx} cy={cy} r={r} fill="none" stroke="#F3F4F6" strokeWidth="10" />
-      {/* sent arc (green) */}
-      {sentDash > 0 && (
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ display: 'block' }}>
+      {/* Background track */}
+      <circle
+        cx={cx} cy={cy} r={r}
+        fill="none"
+        stroke="#F0F0F0"
+        strokeWidth={strokeWidth}
+      />
+      {/* Sent arc – green */}
+      {sentLen > 0 && (
         <circle
           cx={cx} cy={cy} r={r}
           fill="none"
           stroke="#00A843"
-          strokeWidth="10"
-          strokeDasharray={`${sentDash} ${circumference}`}
+          strokeWidth={strokeWidth}
+          strokeDasharray={`${sentLen} ${circumference - sentLen}`}
           strokeDashoffset={sentOffset}
-          strokeLinecap="round"
+          strokeLinecap="butt"
+          style={{ transition: 'stroke-dasharray 0.4s ease' }}
         />
       )}
-      {/* scheduled arc (orange) */}
-      {schedDash > 0 && (
+      {/* Scheduled arc – orange */}
+      {schedLen > 0 && (
         <circle
           cx={cx} cy={cy} r={r}
           fill="none"
           stroke="#F97316"
-          strokeWidth="10"
-          strokeDasharray={`${schedDash} ${circumference}`}
+          strokeWidth={strokeWidth}
+          strokeDasharray={`${schedLen} ${circumference - schedLen}`}
           strokeDashoffset={schedOffset}
-          strokeLinecap="round"
+          strokeLinecap="butt"
+          style={{ transition: 'stroke-dasharray 0.4s ease' }}
         />
       )}
-      <text x={cx} y={cy - 4} textAnchor="middle" fontSize="18" fontWeight="700" fill="#111827">{total}</text>
-      <text x={cx} y={cy + 12} textAnchor="middle" fontSize="10" fill="#9CA3AF">Total</text>
+      {/* Centre label */}
+      <text
+        x={cx} y={cy - 5}
+        textAnchor="middle"
+        fontSize="17"
+        fontWeight="800"
+        fill="#111827"
+        fontFamily="inherit"
+      >{total}</text>
+      <text
+        x={cx} y={cy + 10}
+        textAnchor="middle"
+        fontSize="10"
+        fill="#9CA3AF"
+        fontFamily="inherit"
+      >Total</text>
     </svg>
   );
 }

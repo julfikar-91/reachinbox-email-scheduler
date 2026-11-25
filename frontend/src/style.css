@@ -2963,3 +2963,310 @@ body {
   padding: 0;
 }
 .ov-empty-compose:hover { text-decoration: underline; }
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SIDEBAR REDESIGN (reference image exact match)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Brand header ───────────────────────────────────────────────────────────── */
+.sb-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 18px 14px 18px;
+}
+
+.sb-brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.3);
+}
+
+.sb-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+
+.sb-brand-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111827;
+  letter-spacing: -0.8px;
+  font-family: 'Manrope', system-ui, sans-serif;
+}
+
+.sb-brand-tagline {
+  font-size: 10.5px;
+  color: #9CA3AF;
+  font-weight: 400;
+  letter-spacing: 0.1px;
+}
+
+.sb-close-btn {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  color: #9CA3AF;
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  border-radius: 6px;
+}
+.sb-close-btn:hover { background: #F3F4F6; }
+
+/* ── User card ──────────────────────────────────────────────────────────────── */
+.sb-user-card {
+  margin: 0 12px 12px 12px;
+  padding: 8px 10px;
+  background: #F4F5F7;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+  position: relative;
+  transition: background 0.15s;
+}
+.sb-user-card:hover { background: #ECEEF2; }
+
+.sb-user-avatar-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.sb-user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+
+.sb-user-online-dot {
+  position: absolute;
+  bottom: 1px;
+  right: 1px;
+  width: 8px;
+  height: 8px;
+  background: #00A843;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+}
+
+.sb-user-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sb-user-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sb-user-email {
+  font-size: 10.5px;
+  color: #9CA3AF;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+.sb-user-chevron {
+  color: #9CA3AF;
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.sb-user-chevron.open { transform: rotate(180deg); }
+
+.sb-dropdown-divider {
+  height: 1px;
+  background: #F3F4F6;
+  margin: 4px 0;
+}
+
+/* ── Compose button ─────────────────────────────────────────────────────────── */
+.sb-compose-wrap {
+  padding: 4px 12px 14px 12px;
+}
+
+.sb-compose-btn {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #2563EB;
+  color: #fff;
+  border: none;
+  border-radius: 9999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.25);
+  font-family: inherit;
+}
+.sb-compose-btn:hover {
+  background: #1D4ED8;
+  box-shadow: 0 4px 14px rgba(37,99,235,0.35);
+}
+
+/* ── Section label ──────────────────────────────────────────────────────────── */
+.sb-section-label {
+  padding: 0 20px 6px 20px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #9CA3AF;
+  text-transform: uppercase;
+}
+
+/* ── Nav links ──────────────────────────────────────────────────────────────── */
+.sb-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 10px 8px 10px;
+}
+
+.sb-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 9px;
+  text-decoration: none;
+  color: #4B5563;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+.sb-nav-link:hover {
+  background: #F4F5F7;
+  color: #111827;
+}
+.sb-nav-link.active {
+  background: #EEF2FF;
+  color: #1E3A8A;
+  font-weight: 600;
+}
+
+.sb-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sb-nav-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.sb-nav-count {
+  font-size: 12px;
+  font-weight: 500;
+  color: #9CA3AF;
+  min-width: 20px;
+  text-align: right;
+}
+.sb-nav-link.active .sb-nav-count {
+  color: #3B82F6;
+  font-weight: 600;
+}
+
+/* ── Section divider ────────────────────────────────────────────────────────── */
+.sb-section-divider {
+  height: 1px;
+  background: #F3F4F6;
+  margin: 8px 14px 12px 14px;
+}
+
+/* ── Sidebar footer ─────────────────────────────────────────────────────────── */
+.sb-footer {
+  margin-top: auto;
+  padding: 0 12px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sb-upgrade-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 100%);
+  border: 1px solid #E0E7FF;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.sb-upgrade-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.sb-upgrade-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sb-upgrade-text strong {
+  font-size: 12px;
+  font-weight: 700;
+  color: #1E3A8A;
+}
+
+.sb-upgrade-text span {
+  font-size: 10.5px;
+  color: #6B7280;
+  line-height: 1.4;
+}
+
+.sb-upgrade-btn {
+  width: 100%;
+  height: 32px;
+  background: #fff;
+  border: 1.5px solid #C7D2FE;
+  border-radius: 9999px;
+  color: #3730A3;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+.sb-upgrade-btn:hover {
+  background: #EEF2FF;
+  border-color: #818CF8;
+}
+
+.sb-footer-copy {
+  font-size: 10px;
+  color: #D1D5DB;
+  text-align: center;
+}
+
+/* Keep old figma-sidebar-footer-status hidden if it appears */
+.figma-sidebar-footer-status { display: none; }
