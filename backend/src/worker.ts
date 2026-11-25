@@ -106,7 +106,17 @@ worker.on('ready', async () => {
   }
 });
 
-worker.on('error', (error) => console.error('BullMQ worker error:', error));
+let loggedRedisDown = false;
+worker.on('error', (error: any) => {
+  if (error?.code === 'ECONNREFUSED') {
+    if (!loggedRedisDown) {
+      console.warn('BullMQ worker: Redis not running on 6379 — using DB fallback polling in API server.');
+      loggedRedisDown = true;
+    }
+    return;
+  }
+  console.error('BullMQ worker error:', error);
+});
 worker.on('completed', (j) => console.log(`Job ${j.id} completed`));
 worker.on('failed', (j, e) => console.error(`Job ${j?.id} failed`, e));
 
