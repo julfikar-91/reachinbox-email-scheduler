@@ -23,8 +23,8 @@ export function ScheduledPage({ notify, onStatsRefresh, onCompose }: ScheduledPa
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
 
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async (isSilent = false) => {
+    if (!isSilent) setLoading(true);
     setError('');
     try {
       const params = {
@@ -39,18 +39,20 @@ export function ScheduledPage({ notify, onStatsRefresh, onCompose }: ScheduledPa
       setRows(data.items);
       setTotal(data.total);
     } catch (e: any) {
-      setError(e.response?.data?.error ?? 'Could not load scheduled emails.');
+      if (!isSilent) {
+        setError(e.response?.data?.error ?? 'Could not load scheduled emails.');
+      }
     } finally {
-      setLoading(false);
+      if (!isSilent) setLoading(false);
     }
   }, [page, query, statusFilter]);
 
   useEffect(() => {
     load();
     const interval = setInterval(() => {
-      load();
+      load(true);
       onStatsRefresh();
-    }, 3500);
+    }, 2000);
     return () => clearInterval(interval);
   }, [load, onStatsRefresh]);
 

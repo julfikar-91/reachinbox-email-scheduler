@@ -8,9 +8,10 @@ import { EmailDetailsModal } from './EmailDetailsModal';
 
 interface SentPageProps {
   notify: (msg: string) => void;
+  onStatsRefresh?: () => void;
 }
 
-export function SentPage({ notify }: SentPageProps) {
+export function SentPage({ notify, onStatsRefresh }: SentPageProps) {
   const [rows, setRows] = useState<Email[]>([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
@@ -21,8 +22,8 @@ export function SentPage({ notify }: SentPageProps) {
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
 
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async (isSilent = false) => {
+    if (!isSilent) setLoading(true);
     setError('');
     try {
       const params = {
@@ -37,15 +38,22 @@ export function SentPage({ notify }: SentPageProps) {
       setRows(data.items);
       setTotal(data.total);
     } catch (e: any) {
-      setError(e.response?.data?.error ?? 'Could not load sent emails.');
+      if (!isSilent) {
+        setError(e.response?.data?.error ?? 'Could not load sent emails.');
+      }
     } finally {
-      setLoading(false);
+      if (!isSilent) setLoading(false);
     }
   }, [page, query, statusFilter]);
 
   useEffect(() => {
     load();
-  }, [load]);
+    const interval = setInterval(() => {
+      load(true);
+      onStatsRefresh?.();
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [load, onStatsRefresh]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', width: '100%' }}>

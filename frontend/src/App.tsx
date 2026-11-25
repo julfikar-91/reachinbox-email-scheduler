@@ -134,13 +134,17 @@ export default function App() {
       .finally(() => setAuthLoading(false));
   }, []);
 
-  // ── Refresh stats whenever route changes ─────────────────────────────────
+  // ── Periodic & live stats refresh ────────────────────────────────────────
   const refreshStats = useCallback(() => {
     if (!me) return;
     dashboardApi.stats().then(setStats).catch(() => {});
   }, [me]);
 
-  useEffect(() => { refreshStats(); }, [refreshStats, loc.pathname]);
+  useEffect(() => {
+    refreshStats();
+    const interval = setInterval(refreshStats, 2000);
+    return () => clearInterval(interval);
+  }, [refreshStats, loc.pathname]);
 
   // ── Toast helper ─────────────────────────────────────────────────────────
   function notify(msg: string) {
@@ -211,7 +215,10 @@ export default function App() {
               />
             }
           />
-          <Route path="/sent" element={<SentPage notify={notify} />} />
+          <Route
+            path="/sent"
+            element={<SentPage notify={notify} onStatsRefresh={refreshStats} />}
+          />
           <Route path="/senders" element={<SenderPage notify={notify} />} />
           <Route path="/slack" element={<SlackPage notify={notify} />} />
           <Route path="/queue" element={<QueuePage />} />

@@ -47,8 +47,8 @@ export function OverviewPage({
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
 
   // ── Load emails based on current tab, query and filters ───────────────────
-  const load = useCallback(async () => {
-    setLoading(true);
+  const load = useCallback(async (isSilent = false) => {
+    if (!isSilent) setLoading(true);
     setError('');
     try {
       const params = {
@@ -73,18 +73,20 @@ export function OverviewPage({
       setRows(data.items);
       setTotal(data.total);
     } catch (e: any) {
-      setError(e.response?.data?.error ?? 'Could not load overview activity.');
+      if (!isSilent) {
+        setError(e.response?.data?.error ?? 'Could not load overview activity.');
+      }
     } finally {
-      setLoading(false);
+      if (!isSilent) setLoading(false);
     }
   }, [page, query, statusFilter, activeTab]);
 
   useEffect(() => {
     load();
     const interval = setInterval(() => {
-      load();
+      load(true);
       onStatsRefresh();
-    }, 3500);
+    }, 2000);
     return () => clearInterval(interval);
   }, [load, onStatsRefresh]);
 

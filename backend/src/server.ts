@@ -1062,6 +1062,38 @@ app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     });
 });
 
+// ── In-server Scheduled Email Dispatcher (Runs continuously in background) ──
+let serverPollerBusy = false;
+async function pollDueEmailsInServer() {
+  if (serverPollerBusy) return;
+  serverPollerBusy = true;
+  try {
+    const dueEmails = await prisma.email.findMany({
+      where: {
+        status: 'SCHEDULED',
+        scheduledAt: { lte: new Date() },
+      },
+      select: { id: true, subject: true, scheduledAt: true },
+      take: 10,
+    });
+
+    if (dueEmails.length > 0) {
+      console.log(`[Server Dispatcher] Found ${dueEmails.length} due email(s) ready to send:`, dueEmails.map(d => d.id));
+      for (const item of dueEmails) {
+        await processEmailDelivery(item.id);
+      }
+    }
+  } catch (err: any) {
+    // Non-blocking catch
+  } finally {
+    serverPollerBusy = false;
+  }
+}
+
+// Check every 2.5 seconds so due emails are dispatched promptly
+setInterval(pollDueEmailsInServer, 2500);
+pollDueEmailsInServer();
+
 // ── Start server ──────────────────────────────────────────────────────────────
 const httpServer = app.listen(cfg.port, () =>
   console.log(`ReachInbox API listening on port ${cfg.port}`),
