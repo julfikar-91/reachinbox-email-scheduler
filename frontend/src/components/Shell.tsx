@@ -234,14 +234,6 @@ export function Shell({
 
         {/* Footer */}
         <div className="sb-footer">
-          <div className="sb-upgrade-card">
-            <div className="sb-upgrade-icon">🚀</div>
-            <div className="sb-upgrade-text">
-              <strong>Upgrade to Pro</strong>
-              <span>Unlock more features and reach more people.</span>
-            </div>
-          </div>
-          <button className="sb-upgrade-btn">View Plans →</button>
           <div className="sb-footer-copy">© 2026 ONB. All rights reserved.</div>
         </div>
       </aside>

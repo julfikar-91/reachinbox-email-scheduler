@@ -9,6 +9,7 @@ import {
   ExternalLink,
   Filter,
   List,
+  Moon,
   MoreVertical,
   Plus,
   Search,
@@ -17,6 +18,28 @@ import {
   TrendingUp,
   Zap,
 } from 'lucide-react';
+
+// ── Dark mode hook ────────────────────────────────────────────────────────────
+function useDarkMode() {
+  const [dark, setDark] = useState(() => {
+    const stored = localStorage.getItem('onb-theme');
+    if (stored) return stored === 'dark';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (dark) {
+      root.classList.add('dark');
+      localStorage.setItem('onb-theme', 'dark');
+    } else {
+      root.classList.remove('dark');
+      localStorage.setItem('onb-theme', 'light');
+    }
+  }, [dark]);
+
+  return [dark, setDark] as const;
+}
 import { emailsApi } from '../api';
 import type { DashboardStats, Email, User } from '../types';
 import { EmailDetailsModal } from './EmailDetailsModal';
@@ -147,6 +170,7 @@ export function OverviewPage({
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [selectedEmail, setSelectedEmail] = useState<Email | null>(null);
   const filterRef = useRef<HTMLDivElement>(null);
+  const [dark, setDark] = useDarkMode();
 
   // close filter on outside click
   useEffect(() => {
@@ -234,8 +258,8 @@ export function OverviewPage({
             <Bell size={18} />
             <span className="ov-bell-badge">3</span>
           </button>
-          <button className="ov-icon-btn" title="Theme">
-            <Sun size={18} />
+          <button className="ov-icon-btn" title={dark ? 'Switch to Light mode' : 'Switch to Dark mode'} onClick={() => setDark((d) => !d)}>
+            {dark ? <Sun size={18} /> : <Moon size={18} />}
           </button>
           <div className="ov-avatar-pill">
             <div className="ov-top-avatar">{userInitials}</div>

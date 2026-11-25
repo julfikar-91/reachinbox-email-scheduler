@@ -3270,3 +3270,136 @@ body {
 
 /* Keep old figma-sidebar-footer-status hidden if it appears */
 .figma-sidebar-footer-status { display: none; }
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   DARK MODE  (html.dark)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+html.dark body {
+  background-color: #0F1117;
+  color: #E2E8F0;
+}
+
+/* Sidebar */
+html.dark .figma-sidebar {
+  background-color: #161B27;
+  border-right-color: #1E2535;
+}
+html.dark .sb-brand-name        { color: #F1F5F9; }
+html.dark .sb-brand-tagline     { color: #64748B; }
+html.dark .sb-user-card         { background: #1E2535; }
+html.dark .sb-user-card:hover   { background: #252D3D; }
+html.dark .sb-user-name         { color: #F1F5F9; }
+html.dark .sb-user-email        { color: #64748B; }
+html.dark .sb-user-chevron      { color: #64748B; }
+html.dark .sb-nav-link          { color: #94A3B8; }
+html.dark .sb-nav-link:hover    { background: #1E2535; color: #E2E8F0; }
+html.dark .sb-nav-link.active   { background: #1E3A5F; color: #93C5FD; }
+html.dark .sb-nav-link.active .sb-nav-count { color: #60A5FA; }
+html.dark .sb-section-label     { color: #475569; }
+html.dark .sb-section-divider   { background: #1E2535; }
+html.dark .sb-compose-btn       { background: #1D4ED8; box-shadow: 0 2px 8px rgba(29,78,216,0.4); }
+html.dark .sb-compose-btn:hover { background: #1E40AF; }
+html.dark .sb-footer-copy       { color: #334155; }
+html.dark .figma-user-dropdown  { background: #1E2535; border-color: #2D3748; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+html.dark .figma-user-dropdown-item { color: #CBD5E1; }
+html.dark .figma-user-dropdown-item:hover { background: #2D3748; color: #F1F5F9; }
+html.dark .sb-dropdown-divider  { background: #2D3748; }
+
+/* Main area */
+html.dark .figma-main           { background-color: #0F1117; }
+html.dark .ov-wrap              { background: #0F1117; }
+
+/* Topbar */
+html.dark .ov-topbar            { background: #161B27; border-bottom-color: #1E2535; }
+html.dark .ov-search-input      { background: #1E2535; color: #E2E8F0; }
+html.dark .ov-search-input:focus{ background: #252D3D; border-color: #2563EB; }
+html.dark .ov-search-input::placeholder { color: #475569; }
+html.dark .ov-search-kbd        { background: #252D3D; color: #64748B; }
+html.dark .ov-icon-btn          { color: #64748B; }
+html.dark .ov-icon-btn:hover    { background: #1E2535; color: #CBD5E1; }
+html.dark .ov-avatar-pill       { background: #1E2535; }
+html.dark .ov-avatar-pill:hover { background: #252D3D; }
+html.dark .ov-avatar-label      { color: #CBD5E1; }
+
+/* Hero banner */
+html.dark .ov-hero {
+  background: linear-gradient(135deg, #1E2535 0%, #1A2642 60%, #1E2D4A 100%);
+  border-color: #2D3748;
+}
+html.dark .ov-hero-title        { color: #F1F5F9; }
+html.dark .ov-hero-name         { color: #60A5FA; }
+html.dark .ov-hero-sub          { color: #94A3B8; }
+html.dark .ov-hero-signed       { color: #64748B; }
+html.dark .ov-envelope-body     { background: #1E2535; border-color: #2D3748; }
+html.dark .ov-envelope-flap     { background: linear-gradient(135deg, #1E2535 0%, #2D3748 100%); }
+html.dark .ov-envelope-line     { background: #2D3748; }
+
+/* KPI cards */
+html.dark .ov-kpi-card          { background: #161B27; border-color: #1E2535; }
+html.dark .ov-kpi-card:hover    { box-shadow: 0 6px 20px rgba(0,0,0,0.3); }
+html.dark .ov-kpi-value         { color: #F1F5F9; }
+html.dark .ov-kpi-label         { color: #64748B; }
+html.dark .ov-kpi-badge--blue   { background: #1E3A5F; color: #93C5FD; }
+html.dark .ov-kpi-badge--orange { background: #431407; color: #FDBA74; }
+html.dark .ov-kpi-badge--green  { background: #052E16; color: #4ADE80; }
+html.dark .ov-kpi-badge--gray   { background: #1E2535; color: #94A3B8; }
+html.dark .ov-kpi-icon--blue    { background: #1E3A5F; }
+html.dark .ov-kpi-icon--orange  { background: #431407; }
+html.dark .ov-kpi-icon--green   { background: #052E16; }
+html.dark .ov-kpi-icon--purple  { background: #2E1065; }
+
+/* Status bar */
+html.dark .ov-status-bar        { background: #161B27; border-color: #1E2535; }
+html.dark .ov-status-title      { color: #CBD5E1; }
+html.dark .ov-status-badge.green  { background: #052E16; color: #4ADE80; border-color: #166534; }
+html.dark .ov-status-badge.blue   { background: #1E3A5F; color: #93C5FD; border-color: #1E40AF; }
+html.dark .ov-status-badge.orange { background: #431407; color: #FDBA74; border-color: #9A3412; }
+html.dark .ov-status-badge.teal   { background: #042F2E; color: #2DD4BF; border-color: #0F766E; }
+
+/* Distribution card */
+html.dark .ov-dist-card         { background: #161B27; border-color: #1E2535; }
+html.dark .ov-dist-title        { color: #E2E8F0; }
+html.dark .ov-dist-legend-label { color: #94A3B8; }
+html.dark .ov-dist-legend-pct   { color: #E2E8F0; }
+html.dark .ov-dist-progress-label { color: #94A3B8; }
+html.dark .ov-dist-bar          { background: #1E2535; }
+
+/* Activity section */
+html.dark .ov-activity-section  { background: #161B27; border-color: #1E2535; }
+html.dark .ov-tabs-row          { border-bottom-color: #1E2535; }
+html.dark .ov-tab-group         { background: #1E3A5F; }
+html.dark .ov-tab               { color: rgba(147,197,253,0.6); }
+html.dark .ov-tab:hover         { color: #93C5FD; }
+html.dark .ov-tab.active        { background: #1E2535; color: #BFDBFE; }
+html.dark .ov-showing-label     { color: #475569; }
+html.dark .ov-view-all-btn      { color: #94A3B8; }
+html.dark .ov-view-all-btn:hover { background: #1E2535; }
+html.dark .ov-filter-btn        { border-color: #2D3748; color: #64748B; }
+html.dark .ov-filter-btn:hover  { border-color: #3D4F6B; color: #94A3B8; }
+html.dark .ov-filter-dropdown   { background: #1E2535; border-color: #2D3748; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+html.dark .ov-filter-option     { color: #CBD5E1; }
+html.dark .ov-filter-option:hover { background: #252D3D; }
+
+/* Email rows */
+html.dark .ov-email-row         { border-bottom-color: #1A2035; }
+html.dark .ov-email-row:hover   { background: #1A2035; }
+html.dark .ov-row-to            { color: #94A3B8; }
+html.dark .ov-row-to strong     { color: #E2E8F0; }
+html.dark .ov-row-subject       { color: #E2E8F0; }
+html.dark .ov-row-dash          { color: #334155; }
+html.dark .ov-row-snippet       { color: #475569; }
+html.dark .ov-row-date          { color: #475569; }
+html.dark .ov-row-action-btn    { color: #334155; }
+html.dark .ov-row-action-btn:hover { background: #1E2535; color: #94A3B8; }
+html.dark .ov-row-badge.sent       { background: #052E16; color: #4ADE80; border-color: #166534; }
+html.dark .ov-row-badge.scheduled  { background: #431407; color: #FDBA74; border-color: #9A3412; }
+html.dark .ov-row-badge.failed     { background: #450A0A; color: #FCA5A5; border-color: #7F1D1D; }
+html.dark .ov-row-badge.processing { background: #1E3A5F; color: #93C5FD; border-color: #1E40AF; }
+
+/* Skeleton */
+html.dark .ov-skel { background: linear-gradient(90deg, #1E2535 25%, #252D3D 50%, #1E2535 75%); background-size: 200% 100%; }
+
+/* Donut SVG center text */
+html.dark .ov-dist-donut text { fill: #E2E8F0; }
