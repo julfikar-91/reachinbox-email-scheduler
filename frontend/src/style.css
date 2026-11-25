@@ -3403,3 +3403,269 @@ html.dark .ov-skel { background: linear-gradient(90deg, #1E2535 25%, #252D3D 50%
 
 /* Donut SVG center text */
 html.dark .ov-dist-donut text { fill: #E2E8F0; }
+
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   UI/UX & COLOR PALETTE OVERHAUL (v4 – Midnight Obsidian + Indigo-Violet & Emerald)
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --brand-primary: #4F46E5;
+  --brand-primary-hover: #4338CA;
+  --brand-primary-soft: rgba(79, 70, 229, 0.1);
+  --brand-emerald: #10B981;
+  --brand-amber: #F59E0B;
+  --brand-violet: #8B5CF6;
+}
+
+/* ── Midnight Obsidian Sidebar (Crisp Contrast) ─────────────────────────────── */
+.figma-sidebar {
+  background: linear-gradient(180deg, #0B1120 0%, #0F172A 100%) !important;
+  border-right: 1px solid #1E293B !important;
+  color: #E2E8F0;
+}
+
+.sb-brand-icon {
+  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%) !important;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4) !important;
+}
+
+.sb-brand-name { color: #F8FAFC !important; }
+.sb-brand-tagline { color: #64748B !important; }
+
+.sb-user-card {
+  background: rgba(30, 41, 59, 0.72) !important;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+.sb-user-card:hover { background: rgba(51, 65, 85, 0.7) !important; }
+.sb-user-name { color: #F8FAFC !important; }
+.sb-user-email { color: #94A3B8 !important; }
+.sb-user-online-dot { background: #10B981 !important; border-color: #0F172A !important; }
+
+.sb-compose-btn {
+  background: linear-gradient(135deg, #6366F1 0%, #4F46E5 100%) !important;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35) !important;
+}
+.sb-compose-btn:hover {
+  background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%) !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.45) !important;
+}
+
+.sb-section-label { color: #64748B !important; }
+.sb-section-divider { background: #1E293B !important; }
+
+.sb-nav-link { color: #94A3B8 !important; }
+.sb-nav-link:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  color: #F8FAFC !important;
+}
+.sb-nav-link.active {
+  background: rgba(99, 102, 241, 0.16) !important;
+  color: #FFFFFF !important;
+  box-shadow: inset 3px 0 0 #6366F1;
+}
+.sb-nav-count {
+  background: rgba(148, 163, 184, 0.12);
+  color: #94A3B8 !important;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-size: 11px !important;
+}
+.sb-nav-link.active .sb-nav-count {
+  background: rgba(99, 102, 241, 0.3);
+  color: #C7D2FE !important;
+}
+.sb-footer-copy { color: #475569 !important; }
+
+/* ── Main Canvas & Frosted Topbar ───────────────────────────────────────────── */
+.ov-wrap {
+  background: #F6F8FC !important;
+}
+
+.ov-topbar {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid #E8ECF4 !important;
+}
+
+.ov-search-input {
+  background: #F1F5F9 !important;
+  border-radius: 12px !important;
+}
+.ov-search-input:focus {
+  background: #FFFFFF !important;
+  border-color: #6366F1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+}
+
+.ov-top-avatar {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%) !important;
+}
+
+/* ── Hero Banner ────────────────────────────────────────────────────────────── */
+.ov-hero {
+  background: linear-gradient(135deg, #EEF2FF 0%, #F5F3FF 52%, #ECFEFF 100%) !important;
+  border: 1px solid #E0E7FF !important;
+  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.06);
+}
+.ov-hero::before {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.14) 0%, transparent 70%) !important;
+}
+.ov-hero-name {
+  background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.ov-hero-dot {
+  background: #10B981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+.ov-envelope-body { border-color: #C7D2FE !important; }
+.ov-envelope-flap { background: linear-gradient(135deg, #EEF2FF 0%, #C7D2FE 100%) !important; }
+.ov-envelope-line { background: #C7D2FE !important; }
+
+.ov-compose-btn {
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%) !important;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.28) !important;
+  border-radius: 12px !important;
+}
+.ov-compose-btn:hover {
+  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%) !important;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.38) !important;
+}
+
+/* ── KPI Cards ──────────────────────────────────────────────────────────────── */
+.ov-kpi-card {
+  border: 1px solid #E8ECF4 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03), 0 4px 14px rgba(15, 23, 42, 0.02) !important;
+}
+.ov-kpi-card:hover {
+  border-color: #C7D2FE !important;
+  box-shadow: 0 10px 26px rgba(79, 70, 229, 0.08) !important;
+  transform: translateY(-2px) !important;
+}
+.ov-kpi-icon--blue   { background: #EEF2FF !important; color: #4F46E5 !important; }
+.ov-kpi-badge--blue  { background: #EEF2FF !important; color: #4338CA !important; }
+.ov-kpi-icon--green  { background: #ECFDF5 !important; color: #10B981 !important; }
+.ov-kpi-badge--green { background: #ECFDF5 !important; color: #047857 !important; }
+.ov-kpi-icon--orange { background: #FFFBEB !important; color: #D97706 !important; }
+.ov-kpi-badge--orange{ background: #FFFBEB !important; color: #B45309 !important; }
+.ov-kpi-trend.up     { color: #10B981 !important; }
+.ov-kpi-trend.neutral{ color: #D97706 !important; }
+
+/* ── System Status & Queue Distribution ─────────────────────────────────────── */
+.ov-status-bar,
+.ov-dist-card,
+.ov-activity-section {
+  border-color: #E8ECF4 !important;
+  border-radius: 16px !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.02) !important;
+}
+
+.ov-status-pulse { background: #10B981 !important; }
+.ov-dist-dot.green, .ov-dist-bar-fill.green { background: #10B981 !important; }
+.ov-dist-dot.orange, .ov-dist-bar-fill.orange { background: #F59E0B !important; }
+
+/* ── Activity Tabs & Rows ───────────────────────────────────────────────────── */
+.ov-tab-group {
+  background: #F1F5F9 !important;
+  padding: 4px !important;
+  border-radius: 12px !important;
+}
+.ov-tab {
+  color: #64748B !important;
+  border-radius: 9px !important;
+}
+.ov-tab:hover {
+  color: #0F172A !important;
+  background: rgba(255, 255, 255, 0.6) !important;
+}
+.ov-tab.active {
+  background: #4F46E5 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+}
+
+.ov-row-dot.sent { background: #10B981 !important; }
+.ov-row-dot.scheduled { background: #F59E0B !important; }
+.ov-row-badge.sent { background: #ECFDF5 !important; color: #047857 !important; border-color: #A7F3D0 !important; }
+.ov-row-badge.scheduled { background: #FFFBEB !important; color: #B45309 !important; border-color: #FDE68A !important; }
+
+/* ── Login / Create Account & Shared Buttons Unified Palette ────────────────── */
+.figma-login-viewport {
+  background:
+    radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.08) 0px, transparent 50%),
+    #F8FAFC !important;
+}
+
+.figma-google-btn {
+  background-color: #EEF2FF !important;
+  color: #1E1B4B !important;
+}
+.figma-google-btn:hover {
+  background-color: #E0E7FF !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.14) !important;
+}
+
+.figma-input:focus {
+  border-color: #6366F1 !important;
+  box-shadow: 0 0 0 3.5px rgba(99, 102, 241, 0.14) !important;
+}
+
+.figma-submit-btn {
+  background: linear-gradient(135deg, #4F46E5 0%, #6366F1 100%) !important;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.28) !important;
+}
+.figma-submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #4338CA 0%, #4F46E5 100%) !important;
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.36) !important;
+}
+
+.figma-send-later-btn,
+.figma-popover-done,
+.figma-sidebar-compose-btn {
+  border-color: #4F46E5 !important;
+  color: #4F46E5 !important;
+}
+.figma-send-later-btn:hover,
+.figma-popover-done:hover,
+.figma-sidebar-compose-btn:hover {
+  background-color: #EEF2FF !important;
+}
+
+.figma-editor-wrap:focus-within {
+  border-color: #6366F1 !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+}
+.figma-toolbar-btn.active {
+  background-color: #EEF2FF !important;
+  color: #4F46E5 !important;
+  border-color: #C7D2FE !important;
+}
+
+/* ── Dark Mode Overrides (v4) ───────────────────────────────────────────────── */
+html.dark .ov-wrap { background: #090D16 !important; }
+html.dark .ov-topbar { background: rgba(17, 24, 39, 0.85) !important; border-bottom-color: #1E293B !important; }
+html.dark .ov-hero {
+  background: linear-gradient(135deg, #1E1B4B 0%, #172554 55%, #0F172A 100%) !important;
+  border-color: #312E81 !important;
+}
+html.dark .ov-hero-name {
+  background: linear-gradient(135deg, #818CF8 0%, #C084FC 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+html.dark .ov-kpi-card,
+html.dark .ov-status-bar,
+html.dark .ov-dist-card,
+html.dark .ov-activity-section {
+  background: #111827 !important;
+  border-color: #1E293B !important;
+}
+html.dark .ov-kpi-card:hover { border-color: #4F46E5 !important; }
+html.dark .ov-tab-group { background: #1E293B !important; }
+html.dark .ov-tab { color: #94A3B8 !important; }
+html.dark .ov-tab.active { background: #4F46E5 !important; color: #FFFFFF !important; }

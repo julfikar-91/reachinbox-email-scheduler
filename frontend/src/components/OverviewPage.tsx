@@ -106,12 +106,12 @@ function DonutChart({ sent, scheduled, total }: { sent: number; scheduled: numbe
         stroke="#F0F0F0"
         strokeWidth={strokeWidth}
       />
-      {/* Sent arc – green */}
+      {/* Sent arc – emerald */}
       {sentLen > 0 && (
         <circle
           cx={cx} cy={cy} r={r}
           fill="none"
-          stroke="#00A843"
+          stroke="#10B981"
           strokeWidth={strokeWidth}
           strokeDasharray={`${sentLen} ${circumference - sentLen}`}
           strokeDashoffset={sentOffset}
@@ -119,12 +119,12 @@ function DonutChart({ sent, scheduled, total }: { sent: number; scheduled: numbe
           style={{ transition: 'stroke-dasharray 0.4s ease' }}
         />
       )}
-      {/* Scheduled arc – orange */}
+      {/* Scheduled arc – amber */}
       {schedLen > 0 && (
         <circle
           cx={cx} cy={cy} r={r}
           fill="none"
-          stroke="#F97316"
+          stroke="#F59E0B"
           strokeWidth={strokeWidth}
           strokeDasharray={`${schedLen} ${circumference - schedLen}`}
           strokeDashoffset={schedOffset}
@@ -292,7 +292,7 @@ export function OverviewPage({
             </div>
             <div className="ov-paper-plane">
               <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                <path d="M44 4L22 26M44 4L30 44L22 26M44 4L4 18L22 26" stroke="#2563EB" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M44 4L22 26M44 4L30 44L22 26M44 4L4 18L22 26" stroke="#4F46E5" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
           </div>
@@ -319,11 +319,11 @@ export function OverviewPage({
           <div className="ov-kpi-value">{totalEmails}</div>
           <div className="ov-kpi-label">Total Email Jobs</div>
           <div className="ov-kpi-footer">
-            <TrendingUp size={12} style={{ color: '#00A843' }} />
+            <TrendingUp size={12} style={{ color: '#10B981' }} />
             <span className="ov-kpi-trend up">+12% vs last week</span>
           </div>
           <div className="ov-kpi-chart">
-            <Sparkline color="#2563EB" type="up" />
+            <Sparkline color="#4F46E5" type="up" />
           </div>
         </div>
 
@@ -338,11 +338,11 @@ export function OverviewPage({
           <div className="ov-kpi-value">{scheduledCount}</div>
           <div className="ov-kpi-label">Scheduled in Queue</div>
           <div className="ov-kpi-footer">
-            <Clock size={12} style={{ color: '#F97316' }} />
-            <span className="ov-kpi-trend neutral">{scheduledCount > 0 ? '0 pending' : '0 pending'}</span>
+            <Clock size={12} style={{ color: '#F59E0B' }} />
+            <span className="ov-kpi-trend neutral">{scheduledCount > 0 ? `${scheduledCount} pending` : '0 pending'}</span>
           </div>
           <div className="ov-kpi-chart">
-            <Sparkline color="#F97316" type="flat" />
+            <Sparkline color="#F59E0B" type="flat" />
           </div>
         </div>
 
@@ -352,16 +352,16 @@ export function OverviewPage({
             <div className="ov-kpi-icon ov-kpi-icon--green">
               <Send size={16} />
             </div>
-            <span className="ov-kpi-badge ov-kpi-badge--green">100% Delivered</span>
+            <span className="ov-kpi-badge ov-kpi-badge--green">{sentPct}% Delivered</span>
           </div>
           <div className="ov-kpi-value">{sentCount}</div>
           <div className="ov-kpi-label">Sent &amp; Delivered</div>
           <div className="ov-kpi-footer">
-            <TrendingUp size={12} style={{ color: '#00A843' }} />
+            <TrendingUp size={12} style={{ color: '#10B981' }} />
             <span className="ov-kpi-trend up">+100% success</span>
           </div>
           <div className="ov-kpi-chart">
-            <Sparkline color="#00A843" type="up" />
+            <Sparkline color="#10B981" type="up" />
           </div>
         </div>
 
@@ -435,7 +435,7 @@ export function OverviewPage({
           <div className="ov-dist-right">
             <div className="ov-dist-progress-label">
               {sentCount} of {totalEmails || 0} delivered ({sentPct}%)
-              <span className="ov-dist-check"><CheckCircle2 size={14} color="#00A843" /></span>
+              <span className="ov-dist-check"><CheckCircle2 size={14} color="#10B981" /></span>
             </div>
             <div className="ov-dist-bar">
               {sentPct > 0 && <div className="ov-dist-bar-fill green" style={{ width: `${sentPct}%` }} />}
@@ -484,7 +484,7 @@ export function OverviewPage({
                 className="ov-filter-btn"
                 onClick={() => setFilterMenuOpen((p) => !p)}
                 title="Filter"
-                style={{ color: statusFilter ? '#00A843' : undefined }}
+                style={{ color: statusFilter ? '#4F46E5' : undefined }}
               >
                 <Filter size={14} />
               </button>
@@ -500,7 +500,7 @@ export function OverviewPage({
                     <button
                       key={opt.val}
                       className="ov-filter-option"
-                      style={{ fontWeight: statusFilter === opt.val ? 600 : 400, color: statusFilter === opt.val ? '#00A843' : undefined }}
+                      style={{ fontWeight: statusFilter === opt.val ? 600 : 400, color: statusFilter === opt.val ? '#4F46E5' : undefined }}
                       onClick={() => { setStatusFilter(opt.val); setFilterMenuOpen(false); }}
                     >
                       {opt.label}
